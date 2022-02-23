@@ -28,7 +28,7 @@ II. To store the notebook as well as codes in your local machine. You can do thi
         - For example, running `cd 'C:\Users\username\python'` (don’t forget '' around the path name to use an absolute path) would lead me to my designated folder.
      
     ```bash
-    $ cd [folder path name]
+    cd [folder path name]
     ```
 
 2.  Clone the github repository for the paper
@@ -36,17 +36,17 @@ II. To store the notebook as well as codes in your local machine. You can do thi
     - You can do this by running below in the command prompt:
     
     ```bash
-        git clone https://github.com/SuriChen1028/PortfolioChoice.git
+    git clone https://github.com/SuriChen1028/PortfolioChoice.git
     ```
     
 3.  Change directories into the ‘Wrestling’ folder and install the required packages for the current user or your initiated virtual environment:
     
     ```bash
-        cd PortfolioChoice
-        pip install -r requirements.txt
+    cd PortfolioChoice
+    pip install -r requirements.txt
     ```
 4. Access the notebooks, run the following under the folder `PortfolioChoice/`:
     
     ```bash
-        jupyter notebook
+    jupyter notebook
     ```
