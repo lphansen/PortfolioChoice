@@ -1,4 +1,4 @@
-# PortfolioChoice
+# Asset Pricing under Smooth Ambiguity in Continuous Time
 
 This repository provides illustration for section 5 and appendix B of papar *Asset Pricing under Smooth Ambiguity in Continuous Time* by [Lars Peter Hansen][id1] and [Jianjun Miao][id2].
 The lastest version of this paper can be accessed through [this link](#link to be filled).
