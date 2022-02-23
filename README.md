@@ -28,7 +28,7 @@ II. To store the notebook as well as codes in your local machine. You can do thi
         - For example, running `cd 'C:\Users\username\python'` (don’t forget '' around the path name to use an absolute path) would lead me to my designated folder.
      
     ```bash
-        cd [folder path name]
+        $ cd [folder path name]
     ```
 
 2.  Clone the github repository for the paper
