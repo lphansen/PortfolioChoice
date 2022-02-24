@@ -18,8 +18,8 @@
 # -- Project information -----------------------------------------------------
 
 project = 'PortfolioChoice'
-copyright = '2022, SuriChen'
-author = 'SuriChen'
+copyright = '2022, SuriChen, ZhenhuanXie'
+author = 'SuriChen, ZhenhuanXie'
 
 
 # -- General configuration ---------------------------------------------------
@@ -46,6 +46,30 @@ exclude_patterns = []
 #
 import sphinx_material
 html_theme = 'sphinx_material'
+html_context = sphinx_material.get_html_context()
+html_theme_path = sphinx_material.html_theme_path()
+html_theme_options = {
+    'navigation_with_keys': True,
+    'nav_title': 'PortfolioChoice',
+    'color_primary': 'blue-grey',
+    'color_accent': 'indigo',
+    'repo_url': 'https://github.com/lphansen/PortfolioChoice',
+    'repo_name': 'Portfolio Choice',
+    'repo_type': 'github',
+    'globaltoc_depth': 3,
+    'globaltoc_collapse': True,
+    'master_doc': True,
+    'logo_icon': '&#xe55d',
+}
+html_show_sourcelink = False
+html_sidebars = {
+    '**': [
+        'globaltoc.html',
+        'localtoc.html',
+        'searchbox.html',
+        'logo-text.html',
+    ]
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
