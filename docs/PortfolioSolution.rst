@@ -28,7 +28,7 @@ equation:
 
    0 = \frac{d K_2(t)}{ dt} + \frac{1}{\gamma |B_y|^2 + \alpha \Sigma_t} - \delta K_2(t) - 2 \frac{\frac{\Sigma_t}{|B_y|^2} ((\gamma-1)|B_y|^2 + \alpha \Sigma_t)}{\gamma |B_y|^2 + \alpha \Sigma_t} K_2(t) -  \frac{\frac{\Sigma_t^2}{|B_y|^2} ((\gamma-1)|B_y|^2 + \alpha \Sigma_t)}{\gamma |B_y|^2 + \alpha \Sigma_t} K_2(t)^2
 
-The remianing terms give rise to the following differential equation:
+The remaining terms give rise to the following differential equation:
 
 .. math::
 
@@ -40,16 +40,16 @@ We will use two terminal conditions to address the above ODEs.
 -  **Terminal condition 1**: T = 100, 000, and :math:`K_2(T)`,
    :math:`K_0(T)` satisfy:
 
-   .. math::  0 = \frac{1}{\gamma |B_y|^2} - \delta K_2(T) 
+   .. math::  0 = \frac{1}{\gamma |B_y|^2} - \delta K_2(T)
 
    and
 
-   .. math::  0 = \delta \log \delta - \delta + r - \delta K_0(T) 
+   .. math::  0 = \delta \log \delta - \delta + r - \delta K_0(T)
 
 -  **Terminal condition 2**: T = 25 and and :math:`K_2(T)`,
    :math:`K_0(T)` satisfy:
 
-   .. math::  K_2(T) = K_0 (T) = 0 
+   .. math::  K_2(T) = K_0 (T) = 0
 
 To solve the ODEs numerically, we discretize the ODE in the following
 way:
@@ -144,7 +144,7 @@ By default, we use **terminal condition 2** if not noted otherwise.
     @njit
     def limiting_K0(args):
         Σ0, B_y, γ, α, δ, r = args
-        return np.log(δ) - 1 + r / δ 
+        return np.log(δ) - 1 + r / δ
 
 .. code:: ipython3
 
@@ -256,7 +256,7 @@ expected excess return, :math:`z - r`, at time :math:`t = 0`.
     def hegding(excess_r, k2, args):
         Σ0, B_y, γ, α, δ, r = args
         adjust = (γ - 1) * B_y**2 + α * Σ0
-        temp = - k2 * excess_r * Σ0 / B_y**2 * adjust 
+        temp = - k2 * excess_r * Σ0 / B_y**2 * adjust
         temp /= γ * B_y**2 + α * Σ0
         return temp
     
@@ -318,11 +318,11 @@ expected excess return, :math:`z - r`, at time :math:`t = 0`.
     axes[1,0].plot(excess_return, myopic(excess_return, args=(0.25**2, B_y, γ, α, δ, r)), color="C1", linestyle="-.")
     axes[1,0].set_title("Myopic demand: DE", fontsize=15)
     ## total
-    axes[2,0].plot(excess_return, myopic(excess_return, args=(0.05**2, B_y, γ, α, δ, r)) 
+    axes[2,0].plot(excess_return, myopic(excess_return, args=(0.05**2, B_y, γ, α, δ, r))
                    + hegding(excess_return, K2l[0], args=(0.05**2, B_y, γ, α, δ, r)))
-    axes[2,0].plot(excess_return, myopic(excess_return, args=(Σt[0], B_y, γ, α, δ, r)) 
+    axes[2,0].plot(excess_return, myopic(excess_return, args=(Σt[0], B_y, γ, α, δ, r))
                    + hegding(excess_return, K2[0], args=(Σt[0], B_y, γ, α, δ, r)), color="C3", linestyle="--")
-    axes[2,0].plot(excess_return, myopic(excess_return, args=(0.25**2, B_y, γ, α, δ, r)) 
+    axes[2,0].plot(excess_return, myopic(excess_return, args=(0.25**2, B_y, γ, α, δ, r))
                    + hegding(excess_return, K2h[0], args=(0.25**2, B_y, γ, α, δ, r)), color="C1", linestyle="-.")
     axes[2,0].set_title("Total demand: DE", fontsize=15)
     
@@ -339,11 +339,11 @@ expected excess return, :math:`z - r`, at time :math:`t = 0`.
     axes[1,1].plot(excess_return, myopic(excess_return, args=(0.25**2, B_y, γ, α, δ, r)), color="C1", linestyle="-.")
     axes[1,1].set_title("Myopic demand: ambiguity", fontsize=15)
     ## total
-    axes[2,1].plot(excess_return, myopic(excess_return, args=(0.05**2, B_y, γ, α, δ, r)) 
+    axes[2,1].plot(excess_return, myopic(excess_return, args=(0.05**2, B_y, γ, α, δ, r))
                    + hegding(excess_return, K24l[0], args=(0.05**2, B_y, γ, α, δ, r)))
-    axes[2,1].plot(excess_return, myopic(excess_return, args=(Σt[0], B_y, γ, α, δ, r)) 
+    axes[2,1].plot(excess_return, myopic(excess_return, args=(Σt[0], B_y, γ, α, δ, r))
                    + hegding(excess_return, K24[0], args=(Σt[0], B_y, γ, α, δ, r)), color="C3", linestyle="--")
-    axes[2,1].plot(excess_return, myopic(excess_return, args=(0.25**2, B_y, γ, α, δ, r)) 
+    axes[2,1].plot(excess_return, myopic(excess_return, args=(0.25**2, B_y, γ, α, δ, r))
                    + hegding(excess_return, K24h[0], args=(0.25**2, B_y, γ, α, δ, r)), color="C1", linestyle="-.")
     axes[2,1].set_title("Total demand: ambiguity", fontsize=15)
     
@@ -398,7 +398,7 @@ infinite-horizon problem with the :math:`\alpha=6` slope actually
 negative. See Table 1.
 
 The hedging demand remains non-monotone under ambiguity aversion as we
-vary :math:`Σ_0` for the infinite-horizon problem. See Table 2 for
+vary :math:`Σ_0` for the infinite-horizon problem. See Table 2(b) for
 :math:`\alpha=3`.
 
 .. code:: ipython3
@@ -410,7 +410,7 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2 for
     def hedging_slope(k2, args):
         Σ0, B_y, γ, α, δ, r = args
         adjust = (γ - 1) * B_y**2 + α * Σ0
-        temp = - k2 * Σ0 / B_y**2 * adjust 
+        temp = - k2 * Σ0 / B_y**2 * adjust
         temp /= γ * B_y**2 + α * Σ0
         return temp
     
@@ -439,7 +439,7 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2 for
         temp.append(hed_temp)
         
     for alpha in Alphas:
-        my_temp = []  
+        my_temp = []
         k2_Miao, _ = simulate_K0(25, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=False)
         my_Miao = myopic_slope(args=(Σ, B_y, γ, alpha, δ, r))
         k2_Hansen, _ = simulate_K0(100_000, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=True)
@@ -458,7 +458,7 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2 for
         total_temp.append(total_Miao)
         temp.append(total_temp)
     
-    data1 = temp
+    data1 = np.round(temp,3)
     contents = ["Hedging demand", "Myopic demand", "Total demand"]
     ids = pd.MultiIndex.from_product([contents, ['\(\\alpha = 0\)', '\(\\alpha = 3\)', "\(\\alpha = 6\)"]])
     tab1 = pd.DataFrame(data1, index=ids, columns=["\(\textbf{TC 1}\)", "\(\textbf{TC 2}\)"])
@@ -469,7 +469,7 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2 for
 .. parsed-literal::
 
     Table 1: γ = 5, and Σ_0 = 0.1^2
-    
+
 
 
 
@@ -502,50 +502,50 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2 for
         <tr>
           <th rowspan="3" valign="top">Hedging demand</th>
           <th>\(\alpha = 0\)</th>
-          <td>-5.529050</td>
-          <td>-5.083637</td>
+          <td>-5.529</td>
+          <td>-5.084</td>
         </tr>
         <tr>
           <th>\(\alpha = 3\)</th>
-          <td>-5.135821</td>
-          <td>-4.697735</td>
+          <td>-5.136</td>
+          <td>-4.698</td>
         </tr>
         <tr>
           <th>\(\alpha = 6\)</th>
-          <td>-4.788819</td>
-          <td>-4.359080</td>
+          <td>-4.789</td>
+          <td>-4.359</td>
         </tr>
         <tr>
           <th rowspan="3" valign="top">Myopic demand</th>
           <th>\(\alpha = 0\)</th>
-          <td>6.172840</td>
-          <td>6.172840</td>
+          <td>6.173</td>
+          <td>6.173</td>
         </tr>
         <tr>
           <th>\(\alpha = 3\)</th>
-          <td>5.208333</td>
-          <td>5.208333</td>
+          <td>5.208</td>
+          <td>5.208</td>
         </tr>
         <tr>
           <th>\(\alpha = 6\)</th>
-          <td>4.504505</td>
-          <td>4.504505</td>
+          <td>4.505</td>
+          <td>4.505</td>
         </tr>
         <tr>
           <th rowspan="3" valign="top">Total demand</th>
           <th>\(\alpha = 0\)</th>
-          <td>0.643790</td>
-          <td>1.089202</td>
+          <td>0.644</td>
+          <td>1.089</td>
         </tr>
         <tr>
           <th>\(\alpha = 3\)</th>
-          <td>0.072512</td>
-          <td>0.510598</td>
+          <td>0.073</td>
+          <td>0.511</td>
         </tr>
         <tr>
           <th>\(\alpha = 6\)</th>
-          <td>-0.284315</td>
-          <td>0.145425</td>
+          <td>-0.284</td>
+          <td>0.145</td>
         </tr>
       </tbody>
     </table>
@@ -571,7 +571,7 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2 for
         temp.append(hed_temp)
         
     for Σ in [0.05**2, 0.10**2, 0.25**2]:
-        my_temp = []  
+        my_temp = []
         k2_Miao, _ = simulate_K0(25, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=False)
         my_Miao = myopic_slope(args=(Σ, B_y, γ, alpha, δ, r))
         k2_Hansen, _ = simulate_K0(100_000, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=True)
@@ -590,7 +590,7 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2 for
         total_temp.append(total_Miao)
         temp.append(total_temp)
     
-    data2a = temp
+    data2a = np.round(temp,3)
     contents = ["Hedging demand", "Myopic demand", "Total demand"]
     ids = pd.MultiIndex.from_product([contents, ['\(Σ_0 = 0.05^2\)', '\(Σ_0 = 0.10^2\)', "\(Σ_0 = 0.25^2\)"]])
     tab2a = pd.DataFrame(data2a, index=ids, columns=["\(\textbf{TC 1}\)", "\(\textbf{TC 2}\)"])
@@ -601,7 +601,7 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2 for
 .. parsed-literal::
 
     Table 2(a): DE(α=0)
-    
+
 
 
 
@@ -634,50 +634,50 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2 for
         <tr>
           <th rowspan="3" valign="top">Hedging demand</th>
           <th>\(Σ_0 = 0.05^2\)</th>
-          <td>-4.585297</td>
-          <td>-3.455229</td>
+          <td>-4.585</td>
+          <td>-3.455</td>
         </tr>
         <tr>
           <th>\(Σ_0 = 0.10^2\)</th>
-          <td>-5.529050</td>
-          <td>-5.083637</td>
+          <td>-5.529</td>
+          <td>-5.084</td>
         </tr>
         <tr>
           <th>\(Σ_0 = 0.25^2\)</th>
-          <td>-6.027631</td>
-          <td>-5.956686</td>
+          <td>-6.028</td>
+          <td>-5.957</td>
         </tr>
         <tr>
           <th rowspan="3" valign="top">Myopic demand</th>
           <th>\(Σ_0 = 0.05^2\)</th>
-          <td>6.172840</td>
-          <td>6.172840</td>
+          <td>6.173</td>
+          <td>6.173</td>
         </tr>
         <tr>
           <th>\(Σ_0 = 0.10^2\)</th>
-          <td>6.172840</td>
-          <td>6.172840</td>
+          <td>6.173</td>
+          <td>6.173</td>
         </tr>
         <tr>
           <th>\(Σ_0 = 0.25^2\)</th>
-          <td>6.172840</td>
-          <td>6.172840</td>
+          <td>6.173</td>
+          <td>6.173</td>
         </tr>
         <tr>
           <th rowspan="3" valign="top">Total demand</th>
           <th>\(Σ_0 = 0.05^2\)</th>
-          <td>1.587543</td>
-          <td>2.717610</td>
+          <td>1.588</td>
+          <td>2.718</td>
         </tr>
         <tr>
           <th>\(Σ_0 = 0.10^2\)</th>
-          <td>0.643790</td>
-          <td>1.089202</td>
+          <td>0.644</td>
+          <td>1.089</td>
         </tr>
         <tr>
           <th>\(Σ_0 = 0.25^2\)</th>
-          <td>0.145209</td>
-          <td>0.216153</td>
+          <td>0.145</td>
+          <td>0.216</td>
         </tr>
       </tbody>
     </table>
@@ -703,7 +703,7 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2 for
         temp.append(hed_temp)
         
     for Σ in [0.05**2, 0.10**2, 0.25**2]:
-        my_temp = []  
+        my_temp = []
         k2_Miao, _ = simulate_K0(25, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=False)
         my_Miao = myopic_slope(args=(Σ, B_y, γ, alpha, δ, r))
         k2_Hansen, _ = simulate_K0(100_000, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=True)
@@ -722,7 +722,7 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2 for
         total_temp.append(total_Miao)
         temp.append(total_temp)
     
-    data2b = temp
+    data2b = np.round(temp,3)
     contents = ["Hedging demand", "Myopic demand", "Total demand"]
     ids = pd.MultiIndex.from_product([contents, ['\(Σ_0 = 0.05^2\)', '\(Σ_0 = 0.10^2\)', "\(Σ_0 = 0.25^2\)"]])
     tab2b = pd.DataFrame(data2b, index=ids, columns=["\(\textbf{TC 1}\)", "\(\textbf{TC 2}\)"])
@@ -733,7 +733,7 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2 for
 .. parsed-literal::
 
     Table 2(b): Ambiguity(α=3)
-    
+
 
 
 
@@ -766,50 +766,50 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2 for
         <tr>
           <th rowspan="3" valign="top">Hedging demand</th>
           <th>\(Σ_0 = 0.05^2\)</th>
-          <td>-4.491278</td>
-          <td>-3.371965</td>
+          <td>-4.491</td>
+          <td>-3.372</td>
         </tr>
         <tr>
           <th>\(Σ_0 = 0.10^2\)</th>
-          <td>-5.135821</td>
-          <td>-4.697735</td>
+          <td>-5.136</td>
+          <td>-4.698</td>
         </tr>
         <tr>
           <th>\(Σ_0 = 0.25^2\)</th>
-          <td>-4.118404</td>
-          <td>-4.052337</td>
+          <td>-4.118</td>
+          <td>-4.052</td>
         </tr>
         <tr>
           <th rowspan="3" valign="top">Myopic demand</th>
           <th>\(Σ_0 = 0.05^2\)</th>
-          <td>5.899705</td>
-          <td>5.899705</td>
+          <td>5.900</td>
+          <td>5.900</td>
         </tr>
         <tr>
           <th>\(Σ_0 = 0.10^2\)</th>
-          <td>5.208333</td>
-          <td>5.208333</td>
+          <td>5.208</td>
+          <td>5.208</td>
         </tr>
         <tr>
           <th>\(Σ_0 = 0.25^2\)</th>
-          <td>2.861230</td>
-          <td>2.861230</td>
+          <td>2.861</td>
+          <td>2.861</td>
         </tr>
         <tr>
           <th rowspan="3" valign="top">Total demand</th>
           <th>\(Σ_0 = 0.05^2\)</th>
-          <td>1.408427</td>
-          <td>2.527740</td>
+          <td>1.408</td>
+          <td>2.528</td>
         </tr>
         <tr>
           <th>\(Σ_0 = 0.10^2\)</th>
-          <td>0.072512</td>
-          <td>0.510598</td>
+          <td>0.073</td>
+          <td>0.511</td>
         </tr>
         <tr>
           <th>\(Σ_0 = 0.25^2\)</th>
-          <td>-1.257174</td>
-          <td>-1.191106</td>
+          <td>-1.257</td>
+          <td>-1.191</td>
         </tr>
       </tbody>
     </table>
@@ -871,7 +871,7 @@ it to be infinite.
         distortion_temp.append(distortion_Miao)
         temp.append(distortion_temp)
     
-    data3 = temp
+    data3 = np.round(temp,3)
     ids = ["α=3", "α=6"]
     tab3 = pd.DataFrame(data3, index=ids, columns=["\(\textbf{TC 1}\)", "\(\textbf{TC 2}\)"])
     print("Table 3")
@@ -881,7 +881,7 @@ it to be infinite.
 .. parsed-literal::
 
     Table 3
-    
+
 
 
 
@@ -912,13 +912,13 @@ it to be infinite.
       <tbody>
         <tr>
           <th>α=3</th>
-          <td>0.187528</td>
-          <td>0.184860</td>
+          <td>0.188</td>
+          <td>0.185</td>
         </tr>
         <tr>
           <th>α=6</th>
-          <td>0.319371</td>
-          <td>0.314965</td>
+          <td>0.319</td>
+          <td>0.315</td>
         </tr>
       </tbody>
     </table>
@@ -927,16 +927,18 @@ it to be infinite.
 
 
 Solving for :math:`J_2 (\Sigma_t)` and :math:`J_0(\Sigma_t)`
------------------------------------------------------------------
+------------------------------------------------------------
 
-In section 5, we have the differential equation in terms of
-:math:`J_2(\Sigma_t)`. Here we solve them and compare with the results,
-:math:`K_2(t)`, above.
+While the appendix computes continuation values by replacing
+:math:`s = \Sigma_t` by :math:`t`, the functions :math:`J_0` and
+:math:`J_2` can be inferred from the infinite-horizon solution described
+in this appendix, by noting that :math:`J_2(0) = K_2(\infty)`,
+:math:`J_0(0) = K_0(\infty)`, and using the formula
+:math:`\frac{d\Sigma_t}{dt} = -\frac{\Sigma_t^2}{|B_y|^2}`.
 
-.. math::
-
-
-   d \Sigma_t = - \frac{\Sigma_t^2}{|B_y|^2} dt
+Below, we write down the differential equation in terms of
+:math:`J_2(\Sigma_t)` and demonstrate how to solve for
+:math:`J_2(\Sigma_t)`, and compare it with :math:`K_2(t)`:
 
 .. math::
 
@@ -1015,4 +1017,5 @@ of :math:`\Sigma_t`. We can see that the two solutions are very close.
 
 
 .. image:: output_25_0.png
+
 
