@@ -52,7 +52,7 @@ html_theme_options = {
     'navigation_with_keys': True,
     'nav_title': 'PortfolioChoice',
     'color_primary': 'blue-grey',
-    'color_accent': 'indigo',
+    'color_accent': 'blue',
     'repo_url': 'https://github.com/lphansen/PortfolioChoice',
     'repo_name': 'Portfolio Choice',
     'repo_type': 'github',
