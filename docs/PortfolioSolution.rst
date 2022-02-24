@@ -59,7 +59,7 @@ way:
 
    \begin{aligned}
    \frac{ {\color{red}{K_2(t)}} - {\color{red}{K_2(t -1)}} }{ dt} &= -\frac{1}{\gamma |B_y|^2 + \alpha \Sigma_t} + \delta {\color{red}{K_2(t)}} + 2 \frac{\frac{\Sigma_t}{|B_y|^2} ((\gamma-1)|B_y|^2 + \alpha \Sigma_t)}{\gamma |B_y|^2 + \alpha \Sigma_t} {\color{red}{K_2(t)}} +  \frac{\frac{\Sigma_t^2}{|B_y|^2} ((\gamma-1)|B_y|^2 + \alpha \Sigma_t)}{\gamma |B_y|^2 + \alpha \Sigma_t} {\color{red}{K_2(t)}}^2\\
-   \frac{{\color{red}{K_0(t)}} - {\color{red}{K_0(t-1)}} }{ dt}  &= \delta {\color{red}{K_0(t)}} - \delta \log \delta + \delta - r - \frac{1}{2} K_2 \frac{\Sigma_t^2}{|B_y|^2}
+   \frac{{\color{red}{K_0(t)}} - {\color{red}{K_0(t-1)}}}{ dt}  &= \delta {\color{red}{K_0(t)}} - \delta \log \delta + \delta - r - \frac{1}{2} K_2 \frac{\Sigma_t^2}{|B_y|^2}
    \end{aligned}
 
 with
@@ -491,59 +491,59 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2 for
     </style>
     <table border="1" class="dataframe">
       <thead>
-        <tr style="text-align: center;">
+        <tr style="text-align: right;">
           <th></th>
           <th></th>
-          <th><b>TC 1</b></th>
-          <th><b>TC 2</b></th>
+          <th>$\textbf{TC 1}$</th>
+          <th>$\textbf{TC 2}$</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <th rowspan="3" valign="top">Hedging demand</th>
-          <th>α = 0</th>
+          <th>$\alpha = 0$</th>
           <td>-5.529050</td>
           <td>-5.083637</td>
         </tr>
         <tr>
-          <th>α = 3</th>
+          <th>$\alpha = 3$</th>
           <td>-5.135821</td>
           <td>-4.697735</td>
         </tr>
         <tr>
-          <th>α = 6</th>
+          <th>$\alpha = 6$</th>
           <td>-4.788819</td>
           <td>-4.359080</td>
         </tr>
         <tr>
           <th rowspan="3" valign="top">Myopic demand</th>
-          <th>α = 0</th>
+          <th>$\alpha = 0$</th>
           <td>6.172840</td>
           <td>6.172840</td>
         </tr>
         <tr>
-          <th>α = 3</th>
+          <th>$\alpha = 3$</th>
           <td>5.208333</td>
           <td>5.208333</td>
         </tr>
         <tr>
-          <th>α = 6</th>
+          <th>$\alpha = 6$</th>
           <td>4.504505</td>
           <td>4.504505</td>
         </tr>
         <tr>
           <th rowspan="3" valign="top">Total demand</th>
-          <th>α = 0</th>
+          <th>$\alpha = 0$</th>
           <td>0.643790</td>
           <td>1.089202</td>
         </tr>
         <tr>
-          <th>α = 3</th>
+          <th>$\alpha = 3$</th>
           <td>0.072512</td>
           <td>0.510598</td>
         </tr>
         <tr>
-          <th>α = 6</th>
+          <th>$\alpha = 6$</th>
           <td>-0.284315</td>
           <td>0.145425</td>
         </tr>
@@ -918,4 +918,95 @@ it to be infinite.
     </table>
     </div>
 
+
+
+Solving for :math:`J_2 (\Sigma_t)` and :math:`J_0(\Sigma_t)`
+============================================================
+
+In section 5, we have the differential equation in terms of
+:math:`J_2(\Sigma_t)`. Here we solve them and compare with the results,
+:math:`K_2(t)`, above.
+
+.. math::
+
+
+   d \Sigma_t = - \frac{\Sigma_t^2}{|B_y|^2} dt
+
+.. math::
+
+
+   \frac{d \color{red}{J_2(\Sigma_t)}}{ dt} = \frac{d \color{red}{J_2(\Sigma_t)}}{ d\Sigma} \left(- \frac{\Sigma_t^2}{|B_y|^2}\right) = -\frac{1}{\gamma |B_y|^2 + \alpha \Sigma_t} + \delta \color{red}{J_2(\Sigma_t)} + 2 \frac{\frac{\Sigma_t}{|B_y|^2} ((\gamma-1)|B_y|^2 + \alpha \Sigma_t)}{\gamma |B_y|^2 + \alpha \Sigma_t} \color{red}{J_2(\Sigma_t)} +  \frac{\frac{\Sigma_t^2}{|B_y|^2} ((\gamma-1)|B_y|^2 + \alpha \Sigma_t)}{\gamma |B_y|^2 + \alpha \Sigma_t} \color{red}{J_2(\Sigma_t)}^2
+
+A way comparable to solve :math:`K_2(t)` with **terminal condition 1**
+is to solve the above system with the following initial condition:
+
+.. math::
+
+
+   0 = \frac{1}{\gamma |B_y|^2} - \delta J_2(0)
+
+.. code:: ipython3
+
+    @njit
+    def solve_J2(Σt, initial, args):
+        Σ0, B_y, γ, α, δ, r = args
+    # initial = (True, _)
+    # args= (Σ0, B_y, γ, α, δ, r)
+    # N = 100
+    #     Σ = np.arange(Σ_min, Σ0 + Σ_min, Δ)
+        Σ = np.flip(Σt)
+        Δ = Σ[1:] - Σ[:-1]
+        N = Σ.shape[0] -1
+        J2 = np.zeros_like(Σ)
+        adjust = (γ - 1) * B_y**2 + α * Σ
+        denominator =  γ * B_y**2 + α * Σ
+        if initial[0]:
+            J2[0] = limiting_K2(args)
+            temp = J2[0] * (- Σ[0]**2 / B_y**2)
+            for i in range(1, N + 1):
+                mu = - 1/(γ * B_y**2 + α * Σ[i-1]) + δ * J2[i-1]
+                mu +=  2 * Σ[i-1] / B_y**2 * adjust[i-1] / denominator[i-1] * J2[i-1]
+                mu +=  Σ[i-1] **2 / B_y**2 * adjust[i-1] / denominator[i-1] * J2[i-1]**2
+                mu *= - B_y**2 / Σ[i-1]**2
+                J2[i] = J2[i-1] + mu * Δ[i-1]
+    #             J2[i] = temp * ( - B_y**2 / Σ[i]**2)
+        else:
+            J2[-1] = initial[1]
+            for i in range(1, N + 1):
+                mu = - 1/(γ * B_y**2 + α * Σ[N-i+1]) + δ * J2[N-i+1]
+                mu +=  2 * Σ[N -i+1] / B_y**2 * adjust[N-i+1] / denominator[N-i+1] * J2[N-i+1]
+                mu +=  Σ[N-i+1] **2 / B_y**2 * adjust[N-i+1] / denominator[N-i+1] * J2[N-i+1]**2
+                mu *= - B_y**2 / Σ[N-i+1]**2
+                J2[N-i] = J2[N-i+1] - mu * Δ[N-i+1]
+    
+        return J2, Σ, Δ
+
+.. code:: ipython3
+
+    γ = 5
+    α = 0
+    sigma = simulate_Σ(1_00_000, 0.1, args=(Σ0, B_y, γ, α, δ, r))
+    kk2, kk0 = simulate_K0(1_00_000, 0.1, args=(Σ0, B_y, γ, α, δ, r), limitingTerm=True)
+    sigma_25 = simulate_Σ(25, 0.01, args=(Σ0, B_y, γ, α, δ, r))
+    k2, k0 = simulate_K0(25, 0.01, args=(Σ0, B_y, γ, α, δ, r))
+    j2, Σ, Δ = solve_J2(sigma, initial=(True, kk2[0]), args= (Σ0, B_y, γ, α, δ, r))
+    jj2, ΣΣ, ΔΔ = solve_J2(sigma, initial=(False, kk2[0]), args= (Σ0, B_y, γ, α, δ, r))
+
+A result comparison is illustrated below. For the orange dashed line, we
+solve :math:`K_2(t)` with **terminal condition 1**, and plot it in terms
+of :math:`\Sigma_t`. We can see that the two solutions are very close.
+
+.. code:: ipython3
+
+    plt.figure(figsize=(8,5))
+    plt.plot(Σ, j2, label="$J_2$ as a function of $\Sigma$, \n imposing limiting value as initial condition ")
+    plt.plot(sigma, kk2, label="$K_2$ as a function of $\Sigma$, \n computed using our terminal conditions", linestyle="dashed")
+    plt.legend(loc=1)
+    plt.xlabel("Σ")
+    plt.title("Solutions, with $Σ_0 = 0.1^2$, $γ= 5$ and $α = 0$")
+    plt.show()
+
+
+
+.. image:: output_25_0.png
 
