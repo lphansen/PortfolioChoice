@@ -19,7 +19,7 @@ This project has been tested in an environment with
 ## <a name="acessing"></a>Acessing our project
 
 I. To try the jupyter notebook on Google Colab:
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/SuriChen/PortfolioChoce.git/PortfolioChoice.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://https://colab.research.google.com/github/SuriChen1028/PortfolioChoice/blob/main/PortfolioSolution.ipynb)
 
 II. To store the notebook as well as codes in your local machine. You can do this by following steps below:
 
