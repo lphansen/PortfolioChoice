@@ -460,8 +460,8 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2 for
     
     data1 = temp
     contents = ["Hedging demand", "Myopic demand", "Total demand"]
-    ids = pd.MultiIndex.from_product([contents, ['$\\alpha = 0$', '$\\alpha = 3$', "$\\alpha = 6$"]])
-    tab1 = pd.DataFrame(data1, index=ids, columns=["$\textbf{TC 1}$", "$\textbf{TC 2}$"])
+    ids = pd.MultiIndex.from_product([contents, ['\(\\alpha = 0\)', '\(\\alpha = 3\)', "\(\\alpha = 6\)"]])
+    tab1 = pd.DataFrame(data1, index=ids, columns=["\(\textbf{TC 1}\)", "\(\textbf{TC 2}\)"])
     print("Table 1: γ = 5, and Σ_0 = 0.1^2")
     tab1
 
@@ -494,56 +494,56 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2 for
         <tr style="text-align: right;">
           <th></th>
           <th></th>
-          <th>$\textbf{TC 1}$</th>
-          <th>$\textbf{TC 2}$</th>
+          <th>\(\textbf{TC 1}\)</th>
+          <th>\(\textbf{TC 2}\)</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <th rowspan="3" valign="top">Hedging demand</th>
-          <th>$\alpha = 0$</th>
+          <th>\(\alpha = 0\)</th>
           <td>-5.529050</td>
           <td>-5.083637</td>
         </tr>
         <tr>
-          <th>$\alpha = 3$</th>
+          <th>\(\alpha = 3\)</th>
           <td>-5.135821</td>
           <td>-4.697735</td>
         </tr>
         <tr>
-          <th>$\alpha = 6$</th>
+          <th>\(\alpha = 6\)</th>
           <td>-4.788819</td>
           <td>-4.359080</td>
         </tr>
         <tr>
           <th rowspan="3" valign="top">Myopic demand</th>
-          <th>$\alpha = 0$</th>
+          <th>\(\alpha = 0\)</th>
           <td>6.172840</td>
           <td>6.172840</td>
         </tr>
         <tr>
-          <th>$\alpha = 3$</th>
+          <th>\(\alpha = 3\)</th>
           <td>5.208333</td>
           <td>5.208333</td>
         </tr>
         <tr>
-          <th>$\alpha = 6$</th>
+          <th>\(\alpha = 6\)</th>
           <td>4.504505</td>
           <td>4.504505</td>
         </tr>
         <tr>
           <th rowspan="3" valign="top">Total demand</th>
-          <th>$\alpha = 0$</th>
+          <th>\(\alpha = 0\)</th>
           <td>0.643790</td>
           <td>1.089202</td>
         </tr>
         <tr>
-          <th>$\alpha = 3$</th>
+          <th>\(\alpha = 3\)</th>
           <td>0.072512</td>
           <td>0.510598</td>
         </tr>
         <tr>
-          <th>$\alpha = 6$</th>
+          <th>\(\alpha = 6\)</th>
           <td>-0.284315</td>
           <td>0.145425</td>
         </tr>
@@ -592,8 +592,8 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2 for
     
     data2a = temp
     contents = ["Hedging demand", "Myopic demand", "Total demand"]
-    ids = pd.MultiIndex.from_product([contents, ['$Σ_0 = 0.05^2$', '$Σ_0 = 0.10^2$', "$Σ_0 = 0.25^2$"]])
-    tab2a = pd.DataFrame(data2a, index=ids, columns=["$\textbf{TC 1}$", "$\textbf{TC 2}$"])
+    ids = pd.MultiIndex.from_product([contents, ['\(Σ_0 = 0.05^2\)', '\(Σ_0 = 0.10^2\)', "\(Σ_0 = 0.25^2\)"]])
+    tab2a = pd.DataFrame(data2a, index=ids, columns=["\(\textbf{TC 1}\)", "\(\textbf{TC 2}\)"])
     print("Table 2(a): DE(α=0)")
     tab2a
 
@@ -626,56 +626,56 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2 for
         <tr style="text-align: right;">
           <th></th>
           <th></th>
-          <th>$\textbf{TC 1}$</th>
-          <th>$\textbf{TC 2}$</th>
+          <th>\(\textbf{TC 1}\)</th>
+          <th>\(\textbf{TC 2}\)</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <th rowspan="3" valign="top">Hedging demand</th>
-          <th>$Σ_0 = 0.05^2$</th>
+          <th>\(Σ_0 = 0.05^2\)</th>
           <td>-4.585297</td>
           <td>-3.455229</td>
         </tr>
         <tr>
-          <th>$Σ_0 = 0.10^2$</th>
+          <th>\(Σ_0 = 0.10^2\)</th>
           <td>-5.529050</td>
           <td>-5.083637</td>
         </tr>
         <tr>
-          <th>$Σ_0 = 0.25^2$</th>
+          <th>\(Σ_0 = 0.25^2\)</th>
           <td>-6.027631</td>
           <td>-5.956686</td>
         </tr>
         <tr>
           <th rowspan="3" valign="top">Myopic demand</th>
-          <th>$Σ_0 = 0.05^2$</th>
+          <th>\(Σ_0 = 0.05^2\)</th>
           <td>6.172840</td>
           <td>6.172840</td>
         </tr>
         <tr>
-          <th>$Σ_0 = 0.10^2$</th>
+          <th>\(Σ_0 = 0.10^2\)</th>
           <td>6.172840</td>
           <td>6.172840</td>
         </tr>
         <tr>
-          <th>$Σ_0 = 0.25^2$</th>
+          <th>\(Σ_0 = 0.25^2\)</th>
           <td>6.172840</td>
           <td>6.172840</td>
         </tr>
         <tr>
           <th rowspan="3" valign="top">Total demand</th>
-          <th>$Σ_0 = 0.05^2$</th>
+          <th>\(Σ_0 = 0.05^2\)</th>
           <td>1.587543</td>
           <td>2.717610</td>
         </tr>
         <tr>
-          <th>$Σ_0 = 0.10^2$</th>
+          <th>\(Σ_0 = 0.10^2\)</th>
           <td>0.643790</td>
           <td>1.089202</td>
         </tr>
         <tr>
-          <th>$Σ_0 = 0.25^2$</th>
+          <th>\(Σ_0 = 0.25^2\)</th>
           <td>0.145209</td>
           <td>0.216153</td>
         </tr>
@@ -724,8 +724,8 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2 for
     
     data2b = temp
     contents = ["Hedging demand", "Myopic demand", "Total demand"]
-    ids = pd.MultiIndex.from_product([contents, ['$Σ_0 = 0.05^2$', '$Σ_0 = 0.10^2$', "$Σ_0 = 0.25^2$"]])
-    tab2b = pd.DataFrame(data2b, index=ids, columns=["$\textbf{TC 1}$", "$\textbf{TC 2}$"])
+    ids = pd.MultiIndex.from_product([contents, ['\(Σ_0 = 0.05^2\)', '\(Σ_0 = 0.10^2\)', "\(Σ_0 = 0.25^2\)"]])
+    tab2b = pd.DataFrame(data2b, index=ids, columns=["\(\textbf{TC 1}\)", "\(\textbf{TC 2}\)"])
     print("Table 2(b): Ambiguity(α={})".format(alpha))
     tab2b
 
@@ -758,56 +758,56 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2 for
         <tr style="text-align: right;">
           <th></th>
           <th></th>
-          <th>$\textbf{TC 1}$</th>
-          <th>$\textbf{TC 2}$</th>
+          <th>\(\textbf{TC 1}\)</th>
+          <th>\(\textbf{TC 2}\)</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <th rowspan="3" valign="top">Hedging demand</th>
-          <th>$Σ_0 = 0.05^2$</th>
+          <th>\(Σ_0 = 0.05^2\)</th>
           <td>-4.491278</td>
           <td>-3.371965</td>
         </tr>
         <tr>
-          <th>$Σ_0 = 0.10^2$</th>
+          <th>\(Σ_0 = 0.10^2\)</th>
           <td>-5.135821</td>
           <td>-4.697735</td>
         </tr>
         <tr>
-          <th>$Σ_0 = 0.25^2$</th>
+          <th>\(Σ_0 = 0.25^2\)</th>
           <td>-4.118404</td>
           <td>-4.052337</td>
         </tr>
         <tr>
           <th rowspan="3" valign="top">Myopic demand</th>
-          <th>$Σ_0 = 0.05^2$</th>
+          <th>\(Σ_0 = 0.05^2\)</th>
           <td>5.899705</td>
           <td>5.899705</td>
         </tr>
         <tr>
-          <th>$Σ_0 = 0.10^2$</th>
+          <th>\(Σ_0 = 0.10^2\)</th>
           <td>5.208333</td>
           <td>5.208333</td>
         </tr>
         <tr>
-          <th>$Σ_0 = 0.25^2$</th>
+          <th>\(Σ_0 = 0.25^2\)</th>
           <td>2.861230</td>
           <td>2.861230</td>
         </tr>
         <tr>
           <th rowspan="3" valign="top">Total demand</th>
-          <th>$Σ_0 = 0.05^2$</th>
+          <th>\(Σ_0 = 0.05^2\)</th>
           <td>1.408427</td>
           <td>2.527740</td>
         </tr>
         <tr>
-          <th>$Σ_0 = 0.10^2$</th>
+          <th>\(Σ_0 = 0.10^2\)</th>
           <td>0.072512</td>
           <td>0.510598</td>
         </tr>
         <tr>
-          <th>$Σ_0 = 0.25^2$</th>
+          <th>\(Σ_0 = 0.25^2\)</th>
           <td>-1.257174</td>
           <td>-1.191106</td>
         </tr>
@@ -820,18 +820,24 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2 for
 Table 3 below applies the distorted conditional mean return formula,
 namely formula (31) in the paper,
 
-:raw-latex:`\begin{equation}
-\overline{Z}_t - \alpha \Sigma_t \left[ \psi^* \left(\overline{Z}_t - r, \Sigma_t \right) + J_2\left( \Sigma_t \right) \left(\overline{Z}_t - r \right) \frac{\Sigma_t}{|B_y|^2} \right]
-\end{equation}`
+.. math::
+
+
+   \begin{equation}
+   \overline{Z}_t - \alpha \Sigma_t \left[ \psi^* \left(\overline{Z}_t - r, \Sigma_t \right) + J_2\left( \Sigma_t \right) \left(\overline{Z}_t - r \right) \frac{\Sigma_t}{|B_y|^2} \right]
+   \end{equation}
 
 to computes the proportional reduction in the expected excess return
 under the implied worst-case probabilities. Table 3 reports the implied
 slope (as a function of :math:`\overline{Z}_t-r`) of the worst-case
 increment:
 
-:raw-latex:`\begin{equation}
-\alpha \Sigma_t \left[ \psi^* \left(\overline{Z}_t - r, \Sigma_t \right) + J_2\left( \Sigma_t \right) \left(\overline{Z}_t - r \right) \frac{\Sigma_t}{|B_y|^2} \right]
-\end{equation}`
+.. math::
+
+
+   \begin{equation}
+   \alpha \Sigma_t \left[ \psi^* \left(\overline{Z}_t - r, \Sigma_t \right) + J_2\left( \Sigma_t \right) \left(\overline{Z}_t - r \right) \frac{\Sigma_t}{|B_y|^2} \right]
+   \end{equation}
 
 This adjustment lowers the expected excess return by about twenty
 percent for :math:`\alpha=3`, and by a little over thirty percent for
@@ -867,7 +873,7 @@ it to be infinite.
     
     data3 = temp
     ids = ["α=3", "α=6"]
-    tab3 = pd.DataFrame(data3, index=ids, columns=["$\textbf{TC 1}$", "$\textbf{TC 2}$"])
+    tab3 = pd.DataFrame(data3, index=ids, columns=["\(\textbf{TC 1}\)", "\(\textbf{TC 2}\)"])
     print("Table 3")
     tab3
 
@@ -899,8 +905,8 @@ it to be infinite.
       <thead>
         <tr style="text-align: right;">
           <th></th>
-          <th>$\textbf{TC 1}$</th>
-          <th>$\textbf{TC 2}$</th>
+          <th>\(\textbf{TC 1}\)</th>
+          <th>\(\textbf{TC 2}\)</th>
         </tr>
       </thead>
       <tbody>
@@ -921,7 +927,7 @@ it to be infinite.
 
 
 Solving for :math:`J_2 (\Sigma_t)` and :math:`J_0(\Sigma_t)`
-============================================================
+-----------------------------------------------------------------
 
 In section 5, we have the differential equation in terms of
 :math:`J_2(\Sigma_t)`. Here we solve them and compare with the results,
