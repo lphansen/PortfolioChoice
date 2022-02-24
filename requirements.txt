@@ -4,7 +4,7 @@ scipy
 matplotlib
 jupyterlab
 sphinx
-sphinx_material
+sphinx-material
 sphinx-redactor-theme              
 sphinx-togglebutton                
 sphinxcontrib-applehelp            
