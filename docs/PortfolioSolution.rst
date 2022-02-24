@@ -58,8 +58,8 @@ way:
 
 
    \begin{aligned}
-   \frac{ \color{red}{K_2(t)} - \color{red}{K_2(t -1)} }{ dt} &= -\frac{1}{\gamma |B_y|^2 + \alpha \Sigma_t} + \delta \color{red}{K_2(t)} + 2 \frac{\frac{\Sigma_t}{|B_y|^2} ((\gamma-1)|B_y|^2 + \alpha \Sigma_t)}{\gamma |B_y|^2 + \alpha \Sigma_t} \color{red}{K_2(t)} +  \frac{\frac{\Sigma_t^2}{|B_y|^2} ((\gamma-1)|B_y|^2 + \alpha \Sigma_t)}{\gamma |B_y|^2 + \alpha \Sigma_t} \color{red}{K_2(t)}^2\\
-   \frac{\color{red}{K_0(t)} - \color{red}{K_0(t-1)}}{ dt}  &= \delta \color{red}{K_0(t)} - \delta \log \delta + \delta - r - \frac{1}{2} K_2 \frac{\Sigma_t^2}{|B_y|^2}
+   \frac{ {\color{red}{K_2(t)}} - {\color{red}{K_2(t -1)}} }{ dt} &= -\frac{1}{\gamma |B_y|^2 + \alpha \Sigma_t} + \delta {\color{red}{K_2(t)}} + 2 \frac{\frac{\Sigma_t}{|B_y|^2} ((\gamma-1)|B_y|^2 + \alpha \Sigma_t)}{\gamma |B_y|^2 + \alpha \Sigma_t} {\color{red}{K_2(t)}} +  \frac{\frac{\Sigma_t^2}{|B_y|^2} ((\gamma-1)|B_y|^2 + \alpha \Sigma_t)}{\gamma |B_y|^2 + \alpha \Sigma_t} {\color{red}{K_2(t)}}^2\\
+   \frac{{\color{red}{K_0(t)}} - {\color{red}{K_0(t-1)}} }{ dt}  &= \delta {\color{red}{K_0(t)}} - \delta \log \delta + \delta - r - \frac{1}{2} K_2 \frac{\Sigma_t^2}{|B_y|^2}
    \end{aligned}
 
 with
@@ -491,59 +491,59 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2 for
     </style>
     <table border="1" class="dataframe">
       <thead>
-        <tr style="text-align: right;">
+        <tr style="text-align: center;">
           <th></th>
           <th></th>
-          <th>$\textbf{TC 1}$</th>
-          <th>$\textbf{TC 2}$</th>
+          <th><b>TC 1</b></th>
+          <th><b>TC 2</b></th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <th rowspan="3" valign="top">Hedging demand</th>
-          <th>$\alpha = 0$</th>
+          <th>α = 0</th>
           <td>-5.529050</td>
           <td>-5.083637</td>
         </tr>
         <tr>
-          <th>$\alpha = 3$</th>
+          <th>α = 3</th>
           <td>-5.135821</td>
           <td>-4.697735</td>
         </tr>
         <tr>
-          <th>$\alpha = 6$</th>
+          <th>α = 6</th>
           <td>-4.788819</td>
           <td>-4.359080</td>
         </tr>
         <tr>
           <th rowspan="3" valign="top">Myopic demand</th>
-          <th>$\alpha = 0$</th>
+          <th>α = 0</th>
           <td>6.172840</td>
           <td>6.172840</td>
         </tr>
         <tr>
-          <th>$\alpha = 3$</th>
+          <th>α = 3</th>
           <td>5.208333</td>
           <td>5.208333</td>
         </tr>
         <tr>
-          <th>$\alpha = 6$</th>
+          <th>α = 6</th>
           <td>4.504505</td>
           <td>4.504505</td>
         </tr>
         <tr>
           <th rowspan="3" valign="top">Total demand</th>
-          <th>$\alpha = 0$</th>
+          <th>α = 0</th>
           <td>0.643790</td>
           <td>1.089202</td>
         </tr>
         <tr>
-          <th>$\alpha = 3$</th>
+          <th>α = 3</th>
           <td>0.072512</td>
           <td>0.510598</td>
         </tr>
         <tr>
-          <th>$\alpha = 6$</th>
+          <th>α = 6</th>
           <td>-0.284315</td>
           <td>0.145425</td>
         </tr>
