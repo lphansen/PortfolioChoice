@@ -90,8 +90,8 @@ Parameters       Values
 :math:`T`        25
 ================ =============
 
-We would also expriment with alternative choices of :math:`\alpha = 3,6`
-and :math:`\Sigma_0 = 0.05^2, 0.25^2`.
+We would also experiment with alternative choices of
+:math:`\alpha = 3,6` and :math:`\Sigma_0 = 0.05^2, 0.25^2`.
 
 By default, we use **terminal condition 2** if not noted otherwise.
 
@@ -102,6 +102,7 @@ By default, we use **terminal condition 2** if not noted otherwise.
     import matplotlib as mpl
     import matplotlib.pyplot as plt
     import pandas as pd
+    from scipy.integrate import solve_ivp
     mpl.rcParams["lines.linewidth"] = 2.5
     mpl.rcParams["legend.frameon"] = True
     mpl.rcParams["legend.framealpha"] = 0.5
@@ -206,18 +207,24 @@ By default, we use **terminal condition 2** if not noted otherwise.
     K2l, K0l = simulate_K0(T, dt, args=(0.05**2, B_y, γ, α, δ, r))
     K24l, K04l = simulate_K0(T, dt, args=(0.05**2, B_y, γ, 3., δ, r))
     K28l, K08l = simulate_K0(T, dt, args=(0.05**2, B_y, γ, 6., δ, r))
+    
+    K2_limiting, K0_limiting = simulate_K0(100_000, dt, args=(Σ0, B_y, γ, α, δ, r), limitingTerm=True)
 
 The solutions are illustration in the following plot:
 
 .. code:: ipython3
 
     fig, (ax1, ax2) = plt.subplots(1,2, figsize=(16,5))
-    ax1.plot(time, K2, label="$K_2$")
+    ax1.plot(time, K2_limiting[:len(time)], label="Terminal Condition 1")
+    ax1.plot(time, K2, label="Terminal Condition 2")
     ax1.set_xlabel("t")
+    ax1.legend()
     ax1.set_title("$K_2$")
     
-    ax2.plot(time, K0, label="$K_0$")
+    ax2.plot(time, K0_limiting[:len(time)], label="Terminal Condition 1")
+    ax2.plot(time, K0, label="Terminal Condition 2")
     ax2.set_xlabel("t")
+    ax2.legend()
     ax2.set_title("$K_0$")
     plt.show()
 
@@ -953,6 +960,10 @@ is to solve the above system with the following initial condition:
 
    0 = \frac{1}{\gamma |B_y|^2} - \delta J_2(0)
 
+For the sake of comparison and as a double check, we also use `an ODE
+solver <https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html>`__
+from ``scipy`` to directly solve for :math:`J_2(\Sigma_t)`.
+
 .. code:: ipython3
 
     @njit
@@ -1000,15 +1011,31 @@ is to solve the above system with the following initial condition:
     j2, Σ, Δ = solve_J2(sigma, initial=(True, kk2[0]), args= (Σ0, B_y, γ, α, δ, r))
     jj2, ΣΣ, ΔΔ = solve_J2(sigma, initial=(False, kk2[0]), args= (Σ0, B_y, γ, α, δ, r))
 
+.. code:: ipython3
+
+    def f(Σ, J2, *args):
+        B_y, γ, α, δ = args
+        RHS = (-B_y**2/Σ**2)*(-1/(γ*B_y**2 + α*Σ) + δ*J2 + \
+                           2*J2*(Σ/B_y**2 * ((γ-1)*B_y**2 + α*Σ))/(γ*B_y**2 + α*Σ) + \
+                           J2**2*Σ**2/B_y**2 *  ((γ-1)*B_y**2 + α*Σ)/(γ*B_y**2 + α*Σ) )
+        return RHS
+    
+    args = B_y, γ, α, δ
+    
+    sol = solve_ivp(f, [1e-9, Σ0], [1/(δ*γ*B_y**2)], args=args)
+
 A result comparison is illustrated below. For the orange dashed line, we
 solve :math:`K_2(t)` with **terminal condition 1**, and plot it in terms
-of :math:`\Sigma_t`. We can see that the two solutions are very close.
+of :math:`\Sigma_t`. We can see that the two solutions are virtually the
+same. They are also virtually the same as the solution given by the ODE
+solver.
 
 .. code:: ipython3
 
     plt.figure(figsize=(8,5))
     plt.plot(Σ, j2, label="$J_2$ as a function of $\Sigma$, \n imposing limiting value as initial condition ")
     plt.plot(sigma, kk2, label="$K_2$ as a function of $\Sigma$, \n computed using our terminal conditions", linestyle="dashed")
+    plt.plot(sol.t, sol.y.flatten(), label = "ODE solver result of $J_2$ as a function of $\Sigma$, \n imposing limiting value as initial condition", linestyle = "dotted")
     plt.legend(loc=1)
     plt.xlabel("Σ")
     plt.title("Solutions, with $Σ_0 = 0.1^2$, $γ= 5$ and $α = 0$")
@@ -1016,6 +1043,6 @@ of :math:`\Sigma_t`. We can see that the two solutions are very close.
 
 
 
-.. image:: output_25_0.png
+.. image:: output_26_0.png
 
 
