@@ -55,9 +55,9 @@ documentation can be found
 `here <https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html>`__.
 Note that this solver is appropriate for initial value problems, but our
 problem imposes terminal value conditions, so we need to use the
-following change of variable to transform :raw-latex:`\eqref{K2}` and
-:raw-latex:`\eqref{K0}` into initial value problems in order to apply
-the solver:
+following **change of variable** to transform :raw-latex:`\eqref{K2}`
+and :raw-latex:`\eqref{K0}` into initial value problems in order to
+apply the solver:
 
 Let :math:`\tilde{t} = T - t`, and write
 :math:`\tilde{K}_2(\tilde{t}) = K_2(T-\tilde{t}) = K_2(t)`,
@@ -71,7 +71,7 @@ Let :math:`\tilde{t} = T - t`, and write
 .. math::
 
 
-   \frac{dK_0(t)}{dt} = f(t, K_0(t)), t \in [0,T], K_0(T) \text{ given} \iff \frac{d\tilde{K}_0(\tilde{t})}{d\tilde{t}} = -f(T-\tilde{t}, \tilde{K}_0(\tilde{t})), \tilde{t} \in [0,T], \tilde{K}_0(0) \text{ given}
+   \frac{dK_0(t)}{dt} = f(t, K_0(t);K_2(t)), t \in [0,T], K_0(T) \text{ given} \iff \frac{d\tilde{K}_0(\tilde{t})}{d\tilde{t}} = -f(T-\tilde{t}, \tilde{K}_0(\tilde{t}); \tilde{K}_2(\tilde{t})), \tilde{t} \in [0,T], \tilde{K}_0(0) \text{ given}
 
 :math:`\tilde{K}_2(\tilde{t})` and :math:`\tilde{K}_0(\tilde{t})` can be
 directly solved using the solver. Then :math:`K_2(t)` and :math:`K_0(t)`
