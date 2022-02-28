@@ -23,17 +23,15 @@ We guess the value function as
 Coefficient of :math:`(z-r)^2` gives rise to the following differential
 equation:
 
-.. math::
-
-
-   0 = \frac{d K_2(t)}{ dt} + \frac{1}{\gamma |B_y|^2 + \alpha \Sigma_t} - \delta K_2(t) - 2 \frac{\frac{\Sigma_t}{|B_y|^2} ((\gamma-1)|B_y|^2 + \alpha \Sigma_t)}{\gamma |B_y|^2 + \alpha \Sigma_t} K_2(t) -  \frac{\frac{\Sigma_t^2}{|B_y|^2} ((\gamma-1)|B_y|^2 + \alpha \Sigma_t)}{\gamma |B_y|^2 + \alpha \Sigma_t} K_2(t)^2
+:raw-latex:`\begin{equation}
+    0 = \frac{d K_2(t)}{ dt} + \frac{1}{\gamma |B_y|^2 + \alpha \Sigma_t} - \delta K_2(t) - 2 \frac{\frac{\Sigma_t}{|B_y|^2} ((\gamma-1)|B_y|^2 + \alpha \Sigma_t)}{\gamma |B_y|^2 + \alpha \Sigma_t} K_2(t) -  \frac{\frac{\Sigma_t^2}{|B_y|^2} ((\gamma-1)|B_y|^2 + \alpha \Sigma_t)}{\gamma |B_y|^2 + \alpha \Sigma_t} K_2(t)^2 \label{K2} \tag{1}
+\end{equation}`
 
 The remaining terms give rise to the following differential equation:
 
-.. math::
-
-
-   0 = \frac{d K_0(t)}{ dt}  - \delta K_0(t) + \delta \log \delta - \delta + r + \frac{1}{2} K_2(t) \frac{\Sigma_t^2}{|B_y|^2}
+:raw-latex:`\begin{equation}
+    0 = \frac{d K_0(t)}{ dt}  - \delta K_0(t) + \delta \log \delta - \delta + r + \frac{1}{2} K_2(t) \frac{\Sigma_t^2}{|B_y|^2} \label{K0} \tag{2}
+\end{equation}`
 
 We will use two terminal conditions to address the above ODEs.
 
@@ -51,8 +49,9 @@ We will use two terminal conditions to address the above ODEs.
 
    .. math::  K_2(T) = K_0 (T) = 0
 
-To solve the ODEs numerically, we discretize the ODE in the following
-way:
+To solve the ODEs :raw-latex:`\eqref{K2}` and :raw-latex:`\eqref{K0}`
+numerically, we can use the following finite-difference method, by
+discretizing the derivatives:
 
 .. math::
 
@@ -69,8 +68,36 @@ with
 
    \Sigma_t = \frac{|B_y|^2 \Sigma_0}{t \Sigma_0 + |B_y|^2}
 
-and we solve :math:`K_2(t)` and :math:`K_0(t)` iteratively from
-:math:`T` to :math:`t = 0`
+and we solve :math:`K_2(t)` and :math:`K_0(t)` iteratively, starting
+from :math:`t=T` to :math:`t = 0`.
+
+It’s also possible to use the ODE solver ``scipy.integrate.solve_ivp``.
+Its documentation can be found
+`here <https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html>`__.
+However, note that this solver is appropriate for initial value
+problems, but our problem imposes terminal value conditions, so we need
+to use the following **change of variable** to transform
+:raw-latex:`\eqref{K2}` and :raw-latex:`\eqref{K0}` into initial value
+problems in order to apply the solver:
+
+Let :math:`\tilde{t} = T - t`, and write
+:math:`\tilde{K}_2(\tilde{t}) = K_2(T-\tilde{t}) = K_2(t)`,
+:math:`\tilde{K}_0(\tilde{t}) = K_0(T-\tilde{t}) = K_0(t)`. Then
+
+.. math::
+
+
+   \frac{dK_2(t)}{dt} = f(t, K_2(t)), t \in [0,T], K_2(T) \text{ given} \iff \frac{d\tilde{K}_2(\tilde{t})}{d\tilde{t}} = -f(T-\tilde{t}, \tilde{K}_2(\tilde{t})), \tilde{t} \in [0,T], \tilde{K}_2(0) \text{ given}
+
+.. math::
+
+
+   \frac{dK_0(t)}{dt} = f(t, K_0(t);K_2(t)), t \in [0,T], K_0(T) \text{ given} \iff \frac{d\tilde{K}_0(\tilde{t})}{d\tilde{t}} = -f(T-\tilde{t}, \tilde{K}_0(\tilde{t}); \tilde{K}_2(\tilde{t})), \tilde{t} \in [0,T], \tilde{K}_0(0) \text{ given}
+
+:math:`\tilde{K}_2(\tilde{t})` and :math:`\tilde{K}_0(\tilde{t})` can be
+directly solved using the solver. Then :math:`K_2(t)` and :math:`K_0(t)`
+can be obtained by mapping :math:`\tilde{t}` to :math:`t`, which is just
+flipping the order.
 
 Parameters
 ----------
@@ -210,19 +237,60 @@ By default, we use **terminal condition 2** if not noted otherwise.
     
     K2_limiting, K0_limiting = simulate_K0(100_000, dt, args=(Σ0, B_y, γ, α, δ, r), limitingTerm=True)
 
-The solutions are illustration in the following plot:
+.. code:: ipython3
+
+    # using ODE solver, for comparison
+    
+    def f_K̃2(t̃, K̃2, *args):
+        Σ0, B_y, γ, α, δ, r, T = args
+        Σ = B_y**2 * Σ0 / ((T-t̃) * Σ0 + B_y**2)
+        RHS = -(-1/(γ*B_y**2 + α*Σ) + δ*K̃2 + \
+                           2*K̃2*(Σ/B_y**2 * ((γ-1)*B_y**2 + α*Σ))/(γ*B_y**2 + α*Σ) + \
+                           K̃2**2*Σ**2/B_y**2 *  ((γ-1)*B_y**2 + α*Σ)/(γ*B_y**2 + α*Σ))
+        return RHS
+    
+    def f_K̃0(t̃, K̃0, *args):
+        Σ0, B_y, γ, α, δ, r, T, K̃2_sol = args
+    
+        Σ = B_y**2 * Σ0 / ((T-t̃) * Σ0 + B_y**2)
+    
+        RHS = -δ*K̃0 + δ*np.log(δ) - δ + r + 0.5* K̃2_sol.sol(t̃) * Σ**2/B_y**2
+    
+        return RHS
+    
+    args_K̃2 = Σ0, B_y, γ, α, δ, r, T
+    K̃2_sol = solve_ivp(f_K̃2, [0, time[-1]], [0], args = args_K̃2, t_eval =time, dense_output=True)
+    args_K̃0 = Σ0, B_y, γ, α, δ, r, T, K̃2_sol
+    K̃0_sol = solve_ivp(f_K̃0, [0, time[-1]], [0], args = args_K̃0, t_eval =time, dense_output=True)
+    
+    args = Σ0, B_y, γ, α, δ, r
+    time_lim = np.arange(0, 100000+dt, dt)
+    
+    args_K̃2_lim = Σ0, B_y, γ, α, δ, r, 100000
+    K̃2_sol_lim = solve_ivp(f_K̃2, [0, time_lim[-1]], [limiting_K2(args)], args = args_K̃2_lim, t_eval =time_lim, dense_output=True)
+    args_K̃0_lim = Σ0, B_y, γ, α, δ, r, 100000, K̃2_sol_lim
+    K̃0_sol_lim = solve_ivp(f_K̃0, [0, time_lim[-1]], [limiting_K0(args)], args = args_K̃0_lim, t_eval =time_lim, dense_output=True)
+
+We illustrate the solutions of :math:`K_2` and :math:`K_0` (with default
+parameters, both terminal conditions) in the following plot. We also
+compare the solution given by finite-difference and by the Scipy ODE
+solver.
 
 .. code:: ipython3
 
     fig, (ax1, ax2) = plt.subplots(1,2, figsize=(16,5))
-    ax1.plot(time, K2_limiting[:len(time)], label="Terminal Condition 1")
-    ax1.plot(time, K2, label="Terminal Condition 2")
+    ax1.plot(time, K2_limiting[:len(time)], label="TC 1, finite-difference")
+    ax1.plot(time, K̃2_sol_lim.y.flatten()[::-1][:len(time)], label="TC 1, solver", linestyle = 'dashed')
+    ax1.plot(time, K2, label="TC 2, finite-difference")
+    ax1.plot(time, K̃2_sol.y.flatten()[::-1], label="TC 2, solver", linestyle = 'dashed')
     ax1.set_xlabel("t")
     ax1.legend()
     ax1.set_title("$K_2$")
     
-    ax2.plot(time, K0_limiting[:len(time)], label="Terminal Condition 1")
-    ax2.plot(time, K0, label="Terminal Condition 2")
+    ax2.plot(time, K0_limiting[:len(time)], label="TC 1, finite-difference")
+    ax2.plot(time, K̃0_sol_lim.y.flatten()[::-1][:len(time)], label="TC 1, solver", linestyle = 'dashed')
+    ax2.plot(time, K0, label="TC 2, finite-difference")
+    ax2.plot(time, K̃0_sol.y.flatten()[::-1], label="TC 2, solver", linestyle = 'dashed')
     ax2.set_xlabel("t")
     ax2.legend()
     ax2.set_title("$K_0$")
@@ -230,7 +298,7 @@ The solutions are illustration in the following plot:
 
 
 
-.. image:: output_10_0.png
+.. image:: output_11_0.png
 
 
 Portfolio choice and expected excess return
@@ -304,7 +372,7 @@ expected excess return, :math:`z - r`, at time :math:`t = 0`.
 
 
 
-.. image:: output_12_0.png
+.. image:: output_13_0.png
 
 
 .. code:: ipython3
@@ -375,7 +443,7 @@ expected excess return, :math:`z - r`, at time :math:`t = 0`.
 
 
 
-.. image:: output_13_0.png
+.. image:: output_14_0.png
 
 
 As demands are proportional to :math:`z-r`, we report in Table 1 and
@@ -960,9 +1028,9 @@ is to solve the above system with the following initial condition:
 
    0 = \frac{1}{\gamma |B_y|^2} - \delta J_2(0)
 
-For the sake of comparison and as a double check, we also use `an ODE
-solver <https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html>`__
-from ``scipy`` to directly solve for :math:`J_2(\Sigma_t)`.
+For the sake of comparison and as a double check, we also use the Scipy
+ODE solver to directly solve for :math:`J_2(\Sigma_t)` and compare the
+solutions.
 
 .. code:: ipython3
 
@@ -1013,7 +1081,7 @@ from ``scipy`` to directly solve for :math:`J_2(\Sigma_t)`.
 
 .. code:: ipython3
 
-    def f(Σ, J2, *args):
+    def f_J2(Σ, J2, *args):
         B_y, γ, α, δ = args
         RHS = (-B_y**2/Σ**2)*(-1/(γ*B_y**2 + α*Σ) + δ*J2 + \
                            2*J2*(Σ/B_y**2 * ((γ-1)*B_y**2 + α*Σ))/(γ*B_y**2 + α*Σ) + \
@@ -1022,7 +1090,7 @@ from ``scipy`` to directly solve for :math:`J_2(\Sigma_t)`.
     
     args = B_y, γ, α, δ
     
-    sol = solve_ivp(f, [1e-9, Σ0], [1/(δ*γ*B_y**2)], args=args)
+    sol = solve_ivp(f_J2, [1e-9, Σ0], [1/(δ*γ*B_y**2)], args=args)
 
 A result comparison is illustrated below. For the orange dashed line, we
 solve :math:`K_2(t)` with **terminal condition 1**, and plot it in terms
@@ -1035,7 +1103,7 @@ solver.
     plt.figure(figsize=(8,5))
     plt.plot(Σ, j2, label="$J_2$ as a function of $\Sigma$, \n imposing limiting value as initial condition ")
     plt.plot(sigma, kk2, label="$K_2$ as a function of $\Sigma$, \n computed using our terminal conditions", linestyle="dashed")
-    plt.plot(sol.t, sol.y.flatten(), label = "ODE solver result of $J_2$ as a function of $\Sigma$, \n imposing limiting value as initial condition", linestyle = "dotted")
+    plt.plot(sol.t, sol.y.flatten(), label = "$J_2$ as a function of $\Sigma$ (using ODE solver), \n imposing limiting value as initial condition", linestyle = "dotted")
     plt.legend(loc=1)
     plt.xlabel("Σ")
     plt.title("Solutions, with $Σ_0 = 0.1^2$, $γ= 5$ and $α = 0$")
@@ -1043,6 +1111,5 @@ solver.
 
 
 
-.. image:: output_26_0.png
-
+.. image:: output_27_0.png
 
