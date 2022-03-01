@@ -23,42 +23,38 @@ We guess the value function as
 Coefficient of :math:`(z-r)^2` gives rise to the following differential
 equation:
 
-.. math::
-
-
-       0 = \frac{d K_2(t)}{ dt} + \frac{1}{\gamma |B_y|^2 + \alpha \Sigma_t} - \delta K_2(t) - 2 \frac{\frac{\Sigma_t}{|B_y|^2} ((\gamma-1)|B_y|^2 + \alpha \Sigma_t)}{\gamma |B_y|^2 + \alpha \Sigma_t} K_2(t) -  \frac{\frac{\Sigma_t^2}{|B_y|^2} ((\gamma-1)|B_y|^2 + \alpha \Sigma_t)}{\gamma |B_y|^2 + \alpha \Sigma_t} K_2(t)^2 \label{K2} \tag{1}
+.. math:: 0 = \frac{d K_2(t)}{ dt} + \frac{1}{\gamma |B_y|^2 + \alpha \Sigma_t} - \delta K_2(t) - 2 \frac{\frac{\Sigma_t}{|B_y|^2} ((\gamma-1)|B_y|^2 + \alpha \Sigma_t)}{\gamma |B_y|^2 + \alpha \Sigma_t} K_2(t) -  \frac{\frac{\Sigma_t^2}{|B_y|^2} ((\gamma-1)|B_y|^2 + \alpha \Sigma_t)}{\gamma |B_y|^2 + \alpha \Sigma_t} K_2(t)^2
+    :label: eq1
 
 The remaining terms give rise to the following differential equation:
 
-.. math::
-
-
-       0 = \frac{d K_0(t)}{ dt}  - \delta K_0(t) + \delta \log \delta - \delta + r + \frac{1}{2} K_2(t) \frac{\Sigma_t^2}{|B_y|^2} \label{K0} \tag{2}
+.. math:: 0 = \frac{d K_0(t)}{ dt}  - \delta K_0(t) + \delta \log \delta - \delta + r + \frac{1}{2} K_2(t) \frac{\Sigma_t^2}{|B_y|^2} 
+    :label: eq2
 
 We will use two terminal conditions to address the above ODEs.
 
 -  **Terminal condition 1**: T = 100, 000, and :math:`K_2(T)`,
    :math:`K_0(T)` satisfy:
 
-   .. math::  0 = \frac{1}{\gamma |B_y|^2} - \delta K_2(T)
+   .. math::  0 = \frac{1}{\gamma |B_y|^2} - \delta K_2(T) 
 
    and
 
-   .. math::  0 = \delta \log \delta - \delta + r - \delta K_0(T)
+   .. math::  0 = \delta \log \delta - \delta + r - \delta K_0(T) 
 
 -  **Terminal condition 2**: T = 25 and and :math:`K_2(T)`,
    :math:`K_0(T)` satisfy:
 
-   .. math::  K_2(T) = K_0 (T) = 0
+   .. math::  K_2(T) = K_0 (T) = 0 
 
-To solve the ODEs :raw-latex:`\eqref{K2}` and :raw-latex:`\eqref{K0}`
+To solve the ODEs :math:numref:`eq1` and :math:numref:`eq2`
 numerically, we use the ODE solver ``scipy.integrate.solve_ivp``. Its
 documentation can be found
 `here <https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html>`__.
 Note that this solver is appropriate for initial value problems, but our
 problem imposes terminal value conditions, so we need to use the
-following **change of variable** to transform :raw-latex:`\eqref{K2}`
-and :raw-latex:`\eqref{K0}` into initial value problems in order to
+following **change of variable** to transform :math:numref:`eq1`
+and :math:numref:`eq2` into initial value problems in order to
 apply the solver:
 
 Let :math:`\tilde{t} = T - t`, and write
@@ -79,31 +75,6 @@ Let :math:`\tilde{t} = T - t`, and write
 directly solved using the solver. Then :math:`K_2(t)` and :math:`K_0(t)`
 can be obtained by mapping :math:`\tilde{t}` to :math:`t`, which is just
 flipping the order.
-
-It’s also possible (and the coding is easy) to solve
-:raw-latex:`\eqref{K2}` and :raw-latex:`\eqref{K0}` using the following
-finite-difference method:
-
-.. math::
-
-
-   \begin{aligned}
-   \frac{ {\color{red}{K_2(t)}} - {\color{red}{K_2(t -1)}} }{ dt} &= -\frac{1}{\gamma |B_y|^2 + \alpha \Sigma_t} + \delta {\color{red}{K_2(t)}} + 2 \frac{\frac{\Sigma_t}{|B_y|^2} ((\gamma-1)|B_y|^2 + \alpha \Sigma_t)}{\gamma |B_y|^2 + \alpha \Sigma_t} {\color{red}{K_2(t)}} +  \frac{\frac{\Sigma_t^2}{|B_y|^2} ((\gamma-1)|B_y|^2 + \alpha \Sigma_t)}{\gamma |B_y|^2 + \alpha \Sigma_t} {\color{red}{K_2(t)}}^2\\
-   \frac{{\color{red}{K_0(t)}} - {\color{red}{K_0(t-1)}}}{ dt}  &= \delta {\color{red}{K_0(t)}} - \delta \log \delta + \delta - r - \frac{1}{2} K_2 \frac{\Sigma_t^2}{|B_y|^2}
-   \end{aligned}
-
-with
-
-.. math::
-
-
-   \Sigma_t = \frac{|B_y|^2 \Sigma_0}{t \Sigma_0 + |B_y|^2}
-
-and :math:`K_2(t)` and :math:`K_0(t)` can be solved iteratively,
-starting from :math:`t=T` to :math:`t = 0`. We will be using the solver
-when producing the figures and tables of the paper. It can be verified
-that this finite-difference method can arrive a solution very close to
-that given by the solver.
 
 Parameters
 ----------
@@ -150,7 +121,7 @@ By default, we use **terminal condition 2** if not noted otherwise.
     r = 0.02
     T = 25
     T_lim = 100000
-    dt = 0.1
+    dt = 0.01
 
 .. code:: ipython3
 
@@ -159,6 +130,7 @@ By default, we use **terminal condition 2** if not noted otherwise.
 
 .. code:: ipython3
 
+    plt.figure(figsize=(8,5))
     plt.plot(time, Σt)
     plt.title("Decay of variance $\Sigma_t$")
     plt.xlabel("t")
@@ -179,7 +151,7 @@ By default, we use **terminal condition 2** if not noted otherwise.
     @njit
     def limiting_K0(args):
         Σ0, B_y, γ, α, δ, r = args
-        return np.log(δ) - 1 + r / δ
+        return np.log(δ) - 1 + r / δ 
 
 .. code:: ipython3
 
@@ -190,56 +162,10 @@ By default, we use **terminal condition 2** if not noted otherwise.
         Σ0, B_y, γ, α, δ, r = args
         Σt = B_y**2 * Σ0 / (time * Σ0 + B_y**2)
         return Σt
-    
-    @njit
-    def simulate_K2(Σt, T, dt, args, limitingTerm=False):
-        Σ0, B_y, γ, α, δ, r = args
-        adjust = (γ - 1) * B_y**2 + α * Σt
-        denominator =  γ * B_y**2 + α * Σt
-        # K2
-        K2 = np.zeros_like(Σt)
-        T_max = len(K2) - 1
-        if limitingTerm:
-            K2[-1] = limiting_K2(args)
-        for i in range(1, K2.shape[0]):
-            K2[T_max - i] = K2[T_max-i+1]
-            K2[T_max - i] += 1 / denominator[T_max-i+1] * dt
-            K2[T_max - i] -= δ * K2[T_max-i+1] * dt
-            K2[T_max - i] -= 2 * Σt[T_max-i+1] / B_y**2 * adjust[T_max-i+1] / denominator[T_max-i+1] * K2[T_max-i+1] * dt
-            K2[T_max - i] -= Σt[T_max-i+1] **2 / B_y**2 * adjust[T_max-i+1] / denominator[T_max-i+1] * K2[T_max-i+1]**2 * dt
-        
-        return K2
-    
-    @njit
-    def simulate_K0(T, dt, args, limitingTerm=False):
-        Σ0, B_y, γ, α, δ, r = args
-        Σt = simulate_Σ(T, dt, args)
-        K2 = simulate_K2(Σt, T, dt, args, limitingTerm)
-        adjust = (γ - 1) * B_y**2 + α * Σt
-        denominator =  γ * B_y**2 + α * Σt
-        T_max = Σt.shape[0] - 1
-        # K1
-        K0 = np.zeros_like(Σt)
-        if limitingTerm:
-            K0[-1] = limiting_K0(args)
-        for i in range(1, K0.shape[0]):
-            K0[T_max - i] = K0[T_max - i + 1] - δ * K0[T_max - i + 1] * dt
-            K0[T_max - i] += (δ * np.log(δ) - δ + r) * dt
-            K0[T_max - i] += 1/2 * K2[T_max-i+1] * Σt[T_max - i + 1]**2 / B_y**2 * dt
-            
-        return K2, K0
-
-.. code:: ipython3
-
-    # finite difference results (for comparison)
-    # Σt = simulate_Σ(T, dt, args=(Σ0, B_y, γ, α, δ, r))
-    K2, K0 = simulate_K0(T, dt, args=(Σ0, B_y, γ, α, δ, r))
-    K2_lim, K0_lim = simulate_K0(100_000, dt, args=(Σ0, B_y, γ, α, δ, r), limitingTerm=True)
 
 .. code:: ipython3
 
     # ODE solver related
-    
     @njit
     def f_K̃2(t̃, K̃2, *args):
         Σ0, B_y, γ, α, δ, r, T = args
@@ -266,7 +192,6 @@ By default, we use **terminal condition 2** if not noted otherwise.
         else:
             K̃2_sol = solve_ivp(f_K̃2, [0, T], [0], args=args_K̃2, t_eval =time, dense_output=True)
         
-    #     return K̃2_sol.y.flatten()[::-1]
         return K̃2_sol
     
     def solve_K̃0(T, dt, K̃2_sol, args, limitingTerm=False):
@@ -286,31 +211,31 @@ By default, we use **terminal condition 2** if not noted otherwise.
 
     # ODE solver results
     K̃2 = solve_K̃2(T, dt, args=(Σ0, B_y, γ, α, δ, r), limitingTerm=False)
+    K2 = K̃2.y.flatten()[::-1]
     K̃0 = solve_K̃0(T, dt, K̃2, args=(Σ0, B_y, γ, α, δ, r), limitingTerm=False)
+    K0 = K̃0.y.flatten()[::-1]
     
     K̃2_lim = solve_K̃2(100000, dt, args=(Σ0, B_y, γ, α, δ, r), limitingTerm=True)
+    K2_lim = K̃2_lim.y.flatten()[::-1]
     K̃0_lim = solve_K̃0(100000, dt, K̃2_lim, args=(Σ0, B_y, γ, α, δ, r), limitingTerm=True)
+    K0_lim = K̃0_lim.y.flatten()[::-1]
 
 We illustrate the solutions of :math:`K_2` and :math:`K_0` (with default
-parameters, both terminal conditions) in the following plot. We also
-compare the solution given by finite-difference and by the Scipy ODE
-solver.
+parameters, both terminal conditions) in the following plot. We can see
+that different terminal conditions produces slightly different results
+of :math:`K_2(0)`.
 
 .. code:: ipython3
 
     fig, (ax1, ax2) = plt.subplots(1,2, figsize=(16,5))
-    ax1.plot(time, K2_lim[:len(time)], label="TC 1, finite-difference")
-    ax1.plot(time, K̃2_lim.y.flatten()[::-1][:len(time)], label="TC 1, solver", linestyle = 'dashed')
-    ax1.plot(time, K2, label="TC 2, finite-difference")
-    ax1.plot(time, K̃2.y.flatten()[::-1], label="TC 2, solver", linestyle = 'dashed')
+    ax1.plot(time, K̃2_lim.y.flatten()[::-1][:len(time)], label="Terminal condition 1", alpha=0.7)
+    ax1.plot(time, K̃2.y.flatten()[::-1], label="Terminal condition 2", color="C3", alpha=0.7)
     ax1.set_xlabel("t")
     ax1.legend()
     ax1.set_title("$K_2$")
     
-    ax2.plot(time, K0_lim[:len(time)], label="TC 1, finite-difference")
-    ax2.plot(time, K̃0_lim.y.flatten()[::-1][:len(time)], label="TC 1, solver", linestyle = 'dashed')
-    ax2.plot(time, K0, label="TC 2, finite-difference")
-    ax2.plot(time, K̃0.y.flatten()[::-1], label="TC 2, solver", linestyle = 'dashed')
+    ax2.plot(time, K̃0_lim.y.flatten()[::-1][:len(time)], label="Terminal condition 1", alpha=0.7)
+    ax2.plot(time, K̃0.y.flatten()[::-1], label="Terminal condition 2", color="C3", alpha=0.7)
     ax2.set_xlabel("t")
     ax2.legend()
     ax2.set_title("$K_0$")
@@ -318,7 +243,7 @@ solver.
 
 
 
-.. image:: output_12_0.png
+.. image:: output_11_0.png
 
 
 Portfolio choice and expected excess return
@@ -370,7 +295,7 @@ expected excess return, :math:`z - r`, at time :math:`t = 0`.
     def hegding(excess_r, k2, args):
         Σ0, B_y, γ, α, δ, r = args
         adjust = (γ - 1) * B_y**2 + α * Σ0
-        temp = - k2 * excess_r * Σ0 / B_y**2 * adjust
+        temp = - k2 * excess_r * Σ0 / B_y**2 * adjust 
         temp /= γ * B_y**2 + α * Σ0
         return temp
     
@@ -411,7 +336,7 @@ expected excess return, :math:`z - r`, at time :math:`t = 0`.
 
 
 
-.. image:: output_15_0.png
+.. image:: output_14_0.png
 
 
 .. code:: ipython3
@@ -432,11 +357,11 @@ expected excess return, :math:`z - r`, at time :math:`t = 0`.
     axes[1,0].plot(excess_return, myopic(excess_return, args=(0.25**2, B_y, γ, α, δ, r)), color="C1", linestyle="-.")
     axes[1,0].set_title("Myopic demand: DE", fontsize=15)
     ## total
-    axes[2,0].plot(excess_return, myopic(excess_return, args=(0.05**2, B_y, γ, α, δ, r))
+    axes[2,0].plot(excess_return, myopic(excess_return, args=(0.05**2, B_y, γ, α, δ, r)) 
                    + hegding(excess_return, K2l[0], args=(0.05**2, B_y, γ, α, δ, r)))
-    axes[2,0].plot(excess_return, myopic(excess_return, args=(Σt[0], B_y, γ, α, δ, r))
+    axes[2,0].plot(excess_return, myopic(excess_return, args=(Σt[0], B_y, γ, α, δ, r)) 
                    + hegding(excess_return, K2[0], args=(Σt[0], B_y, γ, α, δ, r)), color="C3", linestyle="--")
-    axes[2,0].plot(excess_return, myopic(excess_return, args=(0.25**2, B_y, γ, α, δ, r))
+    axes[2,0].plot(excess_return, myopic(excess_return, args=(0.25**2, B_y, γ, α, δ, r)) 
                    + hegding(excess_return, K2h[0], args=(0.25**2, B_y, γ, α, δ, r)), color="C1", linestyle="-.")
     axes[2,0].set_title("Total demand: DE", fontsize=15)
     
@@ -453,11 +378,11 @@ expected excess return, :math:`z - r`, at time :math:`t = 0`.
     axes[1,1].plot(excess_return, myopic(excess_return, args=(0.25**2, B_y, γ, α, δ, r)), color="C1", linestyle="-.")
     axes[1,1].set_title("Myopic demand: ambiguity", fontsize=15)
     ## total
-    axes[2,1].plot(excess_return, myopic(excess_return, args=(0.05**2, B_y, γ, α, δ, r))
+    axes[2,1].plot(excess_return, myopic(excess_return, args=(0.05**2, B_y, γ, α, δ, r)) 
                    + hegding(excess_return, K24l[0], args=(0.05**2, B_y, γ, α, δ, r)))
-    axes[2,1].plot(excess_return, myopic(excess_return, args=(Σt[0], B_y, γ, α, δ, r))
+    axes[2,1].plot(excess_return, myopic(excess_return, args=(Σt[0], B_y, γ, α, δ, r)) 
                    + hegding(excess_return, K24[0], args=(Σt[0], B_y, γ, α, δ, r)), color="C3", linestyle="--")
-    axes[2,1].plot(excess_return, myopic(excess_return, args=(0.25**2, B_y, γ, α, δ, r))
+    axes[2,1].plot(excess_return, myopic(excess_return, args=(0.25**2, B_y, γ, α, δ, r)) 
                    + hegding(excess_return, K24h[0], args=(0.25**2, B_y, γ, α, δ, r)), color="C1", linestyle="-.")
     axes[2,1].set_title("Total demand: ambiguity", fontsize=15)
     
@@ -482,7 +407,7 @@ expected excess return, :math:`z - r`, at time :math:`t = 0`.
 
 
 
-.. image:: output_16_0.png
+.. image:: output_15_0.png
 
 
 As demands are proportional to :math:`z-r`, we report in Table 1 and
@@ -524,7 +449,7 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2(b) for
     def hedging_slope(k2, args):
         Σ0, B_y, γ, α, δ, r = args
         adjust = (γ - 1) * B_y**2 + α * Σ0
-        temp = - k2 * Σ0 / B_y**2 * adjust
+        temp = - k2 * Σ0 / B_y**2 * adjust 
         temp /= γ * B_y**2 + α * Σ0
         return temp
     
@@ -556,7 +481,7 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2(b) for
         temp.append(hed_temp)
         
     for alpha in Alphas:
-        my_temp = []
+        my_temp = []  
         k̃2_Miao = solve_K̃2(25, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=False)
         k2_Miao = k̃2_Miao.y.flatten()[::-1]
         my_Miao = myopic_slope(args=(Σ, B_y, γ, alpha, δ, r))
@@ -590,7 +515,7 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2(b) for
 .. parsed-literal::
 
     Table 1: γ = 5, and Σ_0 = 0.1^2
-
+    
 
 
 
@@ -696,7 +621,7 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2(b) for
         temp.append(hed_temp)
         
     for Σ in [0.05**2, 0.10**2, 0.25**2]:
-        my_temp = []
+        my_temp = []  
     #     k2_Miao, _ = simulate_K0(25, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=False)
         k̃2_Miao = solve_K̃2(25, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=False)
         k2_Miao = k̃2_Miao.y.flatten()[::-1]
@@ -734,7 +659,7 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2(b) for
 .. parsed-literal::
 
     Table 2(a): DE(α=0)
-
+    
 
 
 
@@ -827,11 +752,9 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2(b) for
     temp = []
     for Σ in [0.05**2, 0.10**2, 0.25**2]:
         hed_temp = []
-    #     k2_Miao, _ = simulate_K0(25, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=False)
         k̃2_Miao = solve_K̃2(25, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=False)
         k2_Miao = k̃2_Miao.y.flatten()[::-1]
         hed_Miao = hedging_slope(k2_Miao[0], args=(Σ, B_y, γ, alpha, δ, r))
-    #     k2_Hansen, _ = simulate_K0(100_000, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=True)
         k̃2_Hansen = solve_K̃2(100_000, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=True)
         k2_Hansen = k̃2_Hansen.y.flatten()[::-1]
         hed_Hansen = hedging_slope(k2_Hansen[0], args=(Σ, B_y, γ, alpha, δ, r))
@@ -840,12 +763,10 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2(b) for
         temp.append(hed_temp)
         
     for Σ in [0.05**2, 0.10**2, 0.25**2]:
-        my_temp = []
-    #     k2_Miao, _ = simulate_K0(25, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=False)
+        my_temp = []  
         k̃2_Miao = solve_K̃2(25, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=False)
         k2_Miao = k̃2_Miao.y.flatten()[::-1]
         my_Miao = myopic_slope(args=(Σ, B_y, γ, alpha, δ, r))
-    #     k2_Hansen, _ = simulate_K0(100_000, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=True)
         k̃2_Hansen = solve_K̃2(100_000, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=True)
         k2_Hansen = k̃2_Hansen.y.flatten()[::-1]
         my_Hansen = myopic_slope(args=(Σ, B_y, γ, alpha, δ, r))
@@ -855,11 +776,9 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2(b) for
         
     for Σ in [0.05**2, 0.10**2, 0.25**2]:
         total_temp = []
-    #     k2_Miao, _ = simulate_K0(25, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=False)
         k̃2_Miao = solve_K̃2(25, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=False)
         k2_Miao = k̃2_Miao.y.flatten()[::-1]
         total_Miao = total_slope(k2_Miao[0], args=(Σ, B_y, γ, alpha, δ, r))
-    #     k2_Hansen, _ = simulate_K0(100_000, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=True)
         k̃2_Hansen = solve_K̃2(100_000, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=True)
         k2_Hansen = k̃2_Hansen.y.flatten()[::-1]
         total_Hansen = total_slope(k2_Hansen[0], args=(Σ, B_y, γ, alpha, δ, r))
@@ -878,7 +797,7 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2(b) for
 .. parsed-literal::
 
     Table 2(b): Ambiguity(α=3)
-
+    
 
 
 
@@ -994,7 +913,6 @@ it to be infinite.
 .. code:: ipython3
 
     # table 3
-    
     def distortion_slope(k2, args):
         Σ0, B_y, γ, α, δ, r = args
         ψ_slope = total_slope(k2, args)
@@ -1008,11 +926,9 @@ it to be infinite.
     temp = []
     for alpha in Alphas:
         distortion_temp = []
-    #     k2_Miao, _ = simulate_K0(25, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=False)
         k̃2_Miao = solve_K̃2(25, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=False)
         k2_Miao = k̃2_Miao.y.flatten()[::-1]
         distortion_Miao = distortion_slope(k2_Miao[0], args=(Σ, B_y, γ, alpha, δ, r))
-    #     k2_Hansen, _ = simulate_K0(100_000, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=True)
         k̃2_Hansen = solve_K̃2(100_000, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=True)
         k2_Hansen = k̃2_Hansen.y.flatten()[::-1]
         distortion_Hansen = distortion_slope(k2_Hansen[0], args=(Σ, B_y, γ, alpha, δ, r))
@@ -1030,7 +946,7 @@ it to be infinite.
 .. parsed-literal::
 
     Table 3
-
+    
 
 
 
@@ -1075,8 +991,8 @@ it to be infinite.
 
 
 
-Solving for :math:`J_2 (\Sigma_t)` and :math:`J_0(\Sigma_t)`
-------------------------------------------------------------
+Solving for :math:`J_2 (\Sigma_t)`
+----------------------------------
 
 While the appendix computes continuation values by replacing
 :math:`s = \Sigma_t` by :math:`t`, the functions :math:`J_0` and
@@ -1102,81 +1018,32 @@ is to solve the above system with the following initial condition:
 
    0 = \frac{1}{\gamma |B_y|^2} - \delta J_2(0)
 
-For the sake of comparison, we also use the Scipy ODE solver to directly
-solve for :math:`J_2(\Sigma_t)` and compare the solutions.
-
-.. code:: ipython3
-
-    @njit
-    def solve_J2(Σt, initial, args):
-        Σ0, B_y, γ, α, δ, r = args
-    # initial = (True, _)
-    # args= (Σ0, B_y, γ, α, δ, r)
-    # N = 100
-    #     Σ = np.arange(Σ_min, Σ0 + Σ_min, Δ)
-        Σ = np.flip(Σt)
-        Δ = Σ[1:] - Σ[:-1]
-        N = Σ.shape[0] -1
-        J2 = np.zeros_like(Σ)
-        adjust = (γ - 1) * B_y**2 + α * Σ
-        denominator =  γ * B_y**2 + α * Σ
-        if initial[0]:
-            J2[0] = limiting_K2(args)
-            temp = J2[0] * (- Σ[0]**2 / B_y**2)
-            for i in range(1, N + 1):
-                mu = - 1/(γ * B_y**2 + α * Σ[i-1]) + δ * J2[i-1]
-                mu +=  2 * Σ[i-1] / B_y**2 * adjust[i-1] / denominator[i-1] * J2[i-1]
-                mu +=  Σ[i-1] **2 / B_y**2 * adjust[i-1] / denominator[i-1] * J2[i-1]**2
-                mu *= - B_y**2 / Σ[i-1]**2
-                J2[i] = J2[i-1] + mu * Δ[i-1]
-    #             J2[i] = temp * ( - B_y**2 / Σ[i]**2)
-        else:
-            J2[-1] = initial[1]
-            for i in range(1, N + 1):
-                mu = - 1/(γ * B_y**2 + α * Σ[N-i+1]) + δ * J2[N-i+1]
-                mu +=  2 * Σ[N -i+1] / B_y**2 * adjust[N-i+1] / denominator[N-i+1] * J2[N-i+1]
-                mu +=  Σ[N-i+1] **2 / B_y**2 * adjust[N-i+1] / denominator[N-i+1] * J2[N-i+1]**2
-                mu *= - B_y**2 / Σ[N-i+1]**2
-                J2[N-i] = J2[N-i+1] - mu * Δ[N-i+1]
-    
-        return J2, Σ, Δ
-
-.. code:: ipython3
-
-    γ = 5
-    α = 0
-    sigma = simulate_Σ(1_00_000, 0.1, args=(Σ0, B_y, γ, α, δ, r))
-    kk2, kk0 = simulate_K0(1_00_000, 0.1, args=(Σ0, B_y, γ, α, δ, r), limitingTerm=True)
-    sigma_25 = simulate_Σ(25, 0.01, args=(Σ0, B_y, γ, α, δ, r))
-    k2, k0 = simulate_K0(25, 0.01, args=(Σ0, B_y, γ, α, δ, r))
-    j2, Σ, Δ = solve_J2(sigma, initial=(True, kk2[0]), args= (Σ0, B_y, γ, α, δ, r))
-    jj2, ΣΣ, ΔΔ = solve_J2(sigma, initial=(False, kk2[0]), args= (Σ0, B_y, γ, α, δ, r))
-
 .. code:: ipython3
 
     def f_J2(Σ, J2, *args):
         B_y, γ, α, δ = args
         RHS = (-B_y**2/Σ**2)*(-1/(γ*B_y**2 + α*Σ) + δ*J2 + \
                            2*J2*(Σ/B_y**2 * ((γ-1)*B_y**2 + α*Σ))/(γ*B_y**2 + α*Σ) + \
-                           J2**2*Σ**2/B_y**2 *  ((γ-1)*B_y**2 + α*Σ)/(γ*B_y**2 + α*Σ) )
+                           J2**2*Σ**2/B_y**2 *  ((γ-1)*B_y**2 + α*Σ)/(γ*B_y**2 + α*Σ) ) 
         return RHS
     
     args = B_y, γ, α, δ
     
     J2_sol = solve_ivp(f_J2, [1e-9, Σ0], [1/(δ*γ*B_y**2)], args=args)
 
-A result comparison is illustrated below. For the orange dashed line, we
+A result comparison is illustrated below. For the red dashed line, we
 solve :math:`K_2(t)` with **terminal condition 1**, and plot it in terms
 of :math:`\Sigma_t`. We can see that the two solutions are virtually the
-same. They are also virtually the same as the solution given by the ODE
-solver.
+same.
 
 .. code:: ipython3
 
     plt.figure(figsize=(8,5))
-    plt.plot(Σ, j2, label="$J_2$ as a function of $\Sigma$, \n imposing limiting value as initial condition ")
-    plt.plot(sigma, kk2, label="$K_2$ as a function of $\Sigma$, \n computed using our terminal conditions", linestyle="dashed")
-    plt.plot(J2_sol.t, J2_sol.y.flatten(), label = "$J_2$ as a function of $\Sigma$ (using ODE solver), \n imposing limiting value as initial condition", linestyle = "dotted")
+    plt.plot(B_y**2 * Σ0 / (K̃2_lim.t * Σ0 + B_y**2), K2_lim, 
+             label="$K_2$ as a function of $\Sigma$, \n computed using our terminal condition 1")
+    plt.plot(J2_sol.t, J2_sol.y.flatten(), 
+             label = "$J_2$ as a function of $\Sigma$, \n imposing limiting value as initial condition", 
+             linestyle = "dotted", color="C3")
     plt.legend(loc=1)
     plt.xlabel("Σ")
     plt.title("Solutions, with $Σ_0 = 0.1^2$, $γ= 5$ and $α = 0$")
@@ -1184,5 +1051,5 @@ solver.
 
 
 
-.. image:: output_29_0.png
+.. image:: output_26_0.png
 
