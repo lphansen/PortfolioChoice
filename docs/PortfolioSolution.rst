@@ -23,13 +23,17 @@ We guess the value function as
 Coefficient of :math:`(z-r)^2` gives rise to the following differential
 equation:
 
-.. math:: 0 = \frac{d K_2(t)}{ dt} + \frac{1}{\gamma |B_y|^2 + \alpha \Sigma_t} - \delta K_2(t) - 2 \frac{\frac{\Sigma_t}{|B_y|^2} ((\gamma-1)|B_y|^2 + \alpha \Sigma_t)}{\gamma |B_y|^2 + \alpha \Sigma_t} K_2(t) -  \frac{\frac{\Sigma_t^2}{|B_y|^2} ((\gamma-1)|B_y|^2 + \alpha \Sigma_t)}{\gamma |B_y|^2 + \alpha \Sigma_t} K_2(t)^2
-    :label: eq1
+.. math::
+
+
+       0 = \frac{d K_2(t)}{ dt} + \frac{1}{\gamma |B_y|^2 + \alpha \Sigma_t} - \delta K_2(t) - 2 \frac{\frac{\Sigma_t}{|B_y|^2} ((\gamma-1)|B_y|^2 + \alpha \Sigma_t)}{\gamma |B_y|^2 + \alpha \Sigma_t} K_2(t) -  \frac{\frac{\Sigma_t^2}{|B_y|^2} ((\gamma-1)|B_y|^2 + \alpha \Sigma_t)}{\gamma |B_y|^2 + \alpha \Sigma_t} K_2(t)^2 \label{K2} \tag{1}
 
 The remaining terms give rise to the following differential equation:
 
-.. math:: 0 = \frac{d K_0(t)}{ dt}  - \delta K_0(t) + \delta \log \delta - \delta + r + \frac{1}{2} K_2(t) \frac{\Sigma_t^2}{|B_y|^2} 
-    :label: eq2
+.. math::
+
+
+       0 = \frac{d K_0(t)}{ dt}  - \delta K_0(t) + \delta \log \delta - \delta + r + \frac{1}{2} K_2(t) \frac{\Sigma_t^2}{|B_y|^2} \label{K0} \tag{2}
 
 We will use two terminal conditions to address the above ODEs.
 
@@ -47,14 +51,14 @@ We will use two terminal conditions to address the above ODEs.
 
    .. math::  K_2(T) = K_0 (T) = 0 
 
-To solve the ODEs :math:numref:`eq1` and :math:numref:`eq2`
+To solve the ODEs :raw-latex:`\eqref{K2}` and :raw-latex:`\eqref{K0}`
 numerically, we use the ODE solver ``scipy.integrate.solve_ivp``. Its
 documentation can be found
 `here <https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html>`__.
 Note that this solver is appropriate for initial value problems, but our
 problem imposes terminal value conditions, so we need to use the
-following **change of variable** to transform :math:numref:`eq1`
-and :math:numref:`eq2` into initial value problems in order to
+following **change of variable** to transform :raw-latex:`\eqref{K2}`
+and :raw-latex:`\eqref{K0}` into initial value problems in order to
 apply the solver:
 
 Let :math:`\tilde{t} = T - t`, and write
@@ -608,11 +612,9 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2(b) for
     temp = []
     for Σ in [0.05**2, 0.10**2, 0.25**2]:
         hed_temp = []
-    #     k2_Miao, _ = simulate_K0(25, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=False)
         k̃2_Miao = solve_K̃2(25, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=False)
         k2_Miao = k̃2_Miao.y.flatten()[::-1]
         hed_Miao = hedging_slope(k2_Miao[0], args=(Σ, B_y, γ, alpha, δ, r))
-    #     k2_Hansen, _ = simulate_K0(100_000, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=True)
         k̃2_Hansen = solve_K̃2(100_000, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=True)
         k2_Hansen = k̃2_Hansen.y.flatten()[::-1]
         hed_Hansen = hedging_slope(k2_Hansen[0], args=(Σ, B_y, γ, alpha, δ, r))
@@ -622,11 +624,9 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2(b) for
         
     for Σ in [0.05**2, 0.10**2, 0.25**2]:
         my_temp = []  
-    #     k2_Miao, _ = simulate_K0(25, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=False)
         k̃2_Miao = solve_K̃2(25, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=False)
         k2_Miao = k̃2_Miao.y.flatten()[::-1]
         my_Miao = myopic_slope(args=(Σ, B_y, γ, alpha, δ, r))
-    #     k2_Hansen, _ = simulate_K0(100_000, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=True)
         k̃2_Hansen = solve_K̃2(100_000, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=True)
         k2_Hansen = k̃2_Hansen.y.flatten()[::-1]
         my_Hansen = myopic_slope(args=(Σ, B_y, γ, alpha, δ, r))
@@ -636,11 +636,9 @@ vary :math:`Σ_0` for the infinite-horizon problem. See Table 2(b) for
         
     for Σ in [0.05**2, 0.10**2, 0.25**2]:
         total_temp = []
-    #     k2_Miao, _ = simulate_K0(25, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=False)
         k̃2_Miao = solve_K̃2(25, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=False)
         k2_Miao = k̃2_Miao.y.flatten()[::-1]
         total_Miao = total_slope(k2_Miao[0], args=(Σ, B_y, γ, alpha, δ, r))
-    #     k2_Hansen, _ = simulate_K0(100_000, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=True)
         k̃2_Hansen = solve_K̃2(100_000, 0.1, args=(Σ, B_y, γ, alpha, δ, r), limitingTerm=True)
         k2_Hansen = k̃2_Hansen.y.flatten()[::-1]
         total_Hansen = total_slope(k2_Hansen[0], args=(Σ, B_y, γ, alpha, δ, r))
