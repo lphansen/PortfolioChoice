@@ -8,6 +8,8 @@ The lastest version of this paper can be accessed through [this link](#link to b
 
 Check out online demonstration: [![Read the Docs](https://img.shields.io/readthedocs/pip)](https://PortfolioChoice.readthedocs.io/en/latest/)
 
+This repository is maintained by Suri Chen[^1] and Zhenhuan Xie[^2]. Contact them if you have any questions.
+
 ## <a name="prerequisite"></a>Prerequisite
 `Python == 3.8.x`, package manager such as `pip`,  and `jupyter notebook` to checkout the notebooks. 
 
@@ -50,3 +52,6 @@ II. To store the notebook as well as codes in your local machine. You can do thi
     ```bash
     jupyter notebook
     ```
+
+[^1]: shiruich@uchicago.edu
+[^2]: zhenhuanxie@uchicago.edu
