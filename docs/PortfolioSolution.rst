@@ -134,13 +134,16 @@ By default, we use **terminal condition 2** if not noted otherwise.
     time = np.arange(0, T+dt, dt)
     Σt = B_y**2 * Σ0 / (time * Σ0 + B_y**2)
 
-.. code:: ipython3
 
-    plt.figure(figsize=(8,5))
-    plt.plot(time, Σt)
-    plt.title("Decay of variance $\Sigma_t$")
-    plt.xlabel("t")
-    plt.show()
+.. toggle::
+
+  .. code:: ipython3
+
+      plt.figure(figsize=(8,5))
+      plt.plot(time, Σt)
+      plt.title("Decay of variance $\Sigma_t$")
+      plt.xlabel("t")
+      plt.show()
 
 
 
@@ -231,21 +234,23 @@ parameters, both terminal conditions) in the following plot. We can see
 that different terminal conditions produces slightly different results
 of :math:`K_2(0)`.
 
-.. code:: ipython3
+.. toggle::
 
-    fig, (ax1, ax2) = plt.subplots(1,2, figsize=(16,5))
-    ax1.plot(time, K̃2_lim.y.flatten()[::-1][:len(time)], label="Terminal condition 1", alpha=0.7)
-    ax1.plot(time, K̃2.y.flatten()[::-1], label="Terminal condition 2", color="C3", alpha=0.7)
-    ax1.set_xlabel("t")
-    ax1.legend()
-    ax1.set_title("$K_2$")
-    
-    ax2.plot(time, K̃0_lim.y.flatten()[::-1][:len(time)], label="Terminal condition 1", alpha=0.7)
-    ax2.plot(time, K̃0.y.flatten()[::-1], label="Terminal condition 2", color="C3", alpha=0.7)
-    ax2.set_xlabel("t")
-    ax2.legend()
-    ax2.set_title("$K_0$")
-    plt.show()
+  .. code:: ipython3
+
+      fig, (ax1, ax2) = plt.subplots(1,2, figsize=(16,5))
+      ax1.plot(time, K̃2_lim.y.flatten()[::-1][:len(time)], label="Terminal condition 1", alpha=0.7)
+      ax1.plot(time, K̃2.y.flatten()[::-1], label="Terminal condition 2", color="C3", alpha=0.7)
+      ax1.set_xlabel("t")
+      ax1.legend()
+      ax1.set_title("$K_2$")
+      
+      ax2.plot(time, K̃0_lim.y.flatten()[::-1][:len(time)], label="Terminal condition 1", alpha=0.7)
+      ax2.plot(time, K̃0.y.flatten()[::-1], label="Terminal condition 2", color="C3", alpha=0.7)
+      ax2.set_xlabel("t")
+      ax2.legend()
+      ax2.set_title("$K_0$")
+      plt.show()
 
 
 
@@ -1036,18 +1041,20 @@ solve :math:`K_2(t)` with **terminal condition 1**, and plot it in terms
 of :math:`\Sigma_t`. We can see that the two solutions are virtually the
 same.
 
-.. code:: ipython3
+.. toggle::
 
-    plt.figure(figsize=(8,5))
-    plt.plot(B_y**2 * Σ0 / (K̃2_lim.t * Σ0 + B_y**2), K2_lim, 
-             label="$K_2$ as a function of $\Sigma$, \n computed using our terminal condition 1")
-    plt.plot(J2_sol.t, J2_sol.y.flatten(), 
-             label = "$J_2$ as a function of $\Sigma$, \n imposing limiting value as initial condition", 
-             linestyle = "dotted", color="C3")
-    plt.legend(loc=1)
-    plt.xlabel("Σ")
-    plt.title("Solutions, with $Σ_0 = 0.1^2$, $γ= 5$ and $α = 0$")
-    plt.show()
+  .. code:: ipython3
+
+      plt.figure(figsize=(8,5))
+      plt.plot(B_y**2 * Σ0 / (K̃2_lim.t * Σ0 + B_y**2), K2_lim, 
+              label="$K_2$ as a function of $\Sigma$, \n computed using our terminal condition 1")
+      plt.plot(J2_sol.t, J2_sol.y.flatten(), 
+              label = "$J_2$ as a function of $\Sigma$, \n imposing limiting value as initial condition", 
+              linestyle = "dotted", color="C3")
+      plt.legend(loc=1)
+      plt.xlabel("Σ")
+      plt.title("Solutions, with $Σ_0 = 0.1^2$, $γ= 5$ and $α = 0$")
+      plt.show()
 
 
 
