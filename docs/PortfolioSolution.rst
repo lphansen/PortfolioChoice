@@ -27,6 +27,7 @@ equation:
 
 
        0 = \frac{d K_2(t)}{ dt} + \frac{1}{\gamma |B_y|^2 + \alpha \Sigma_t} - \delta K_2(t) - 2 \frac{\frac{\Sigma_t}{|B_y|^2} ((\gamma-1)|B_y|^2 + \alpha \Sigma_t)}{\gamma |B_y|^2 + \alpha \Sigma_t} K_2(t) -  \frac{\frac{\Sigma_t^2}{|B_y|^2} ((\gamma-1)|B_y|^2 + \alpha \Sigma_t)}{\gamma |B_y|^2 + \alpha \Sigma_t} K_2(t)^2 \label{K2} \tag{1}
+       :label: eq1
 
 The remaining terms give rise to the following differential equation:
 
@@ -34,6 +35,7 @@ The remaining terms give rise to the following differential equation:
 
 
        0 = \frac{d K_0(t)}{ dt}  - \delta K_0(t) + \delta \log \delta - \delta + r + \frac{1}{2} K_2(t) \frac{\Sigma_t^2}{|B_y|^2} \label{K0} \tag{2}
+       :label: eq2
 
 We will use two terminal conditions to address the above ODEs.
 
@@ -51,14 +53,14 @@ We will use two terminal conditions to address the above ODEs.
 
    .. math::  K_2(T) = K_0 (T) = 0 
 
-To solve the ODEs :raw-latex:`\eqref{K2}` and :raw-latex:`\eqref{K0}`
+To solve the ODEs :math:numref:`eq1` and :math:numref:`eq2`
 numerically, we use the ODE solver ``scipy.integrate.solve_ivp``. Its
 documentation can be found
 `here <https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html>`__.
 Note that this solver is appropriate for initial value problems, but our
 problem imposes terminal value conditions, so we need to use the
-following **change of variable** to transform :raw-latex:`\eqref{K2}`
-and :raw-latex:`\eqref{K0}` into initial value problems in order to
+following **change of variable** to transform :math:numref:`eq1`
+and :math:numref:`eq2` into initial value problems in order to
 apply the solver:
 
 Let :math:`\tilde{t} = T - t`, and write
