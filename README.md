@@ -13,7 +13,7 @@ This repository is maintained by Suri Chen[^1] and Zhenhuan Xie[^2]. Contact the
 ## <a name="prerequisite"></a>Prerequisite
 `Python == 3.8.x`, package manager such as `pip`,  and `jupyter notebook` to checkout the notebooks. 
 
-To go to the documentation of this project, please go to: (link avaliable when published).
+To go to the documentation of this project, please go to: [Asset Pricing under Smooth Ambiguity in Continuous Time](https://larspeterhansen.org/lph_research/new-working-paper-asset-pricing-under-smooth-ambiguity-in-continuous-time/).
 
 This project has been tested in an environment with
 > `Python == 3.8.8` and  `jupyter notebook == 6.4.5`
